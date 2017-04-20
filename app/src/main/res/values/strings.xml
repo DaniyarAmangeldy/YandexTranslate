@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">YandexTranslate</string>
+
+    <string name="string.search.history">Найти в истории</string>
+    <string name="string.search.favourite">Найти в избранном</string>
+
+    <!-- Панель навигации -->
+    <string name="string.navigation.translate">Перевод</string>
+    <string name="string.navigation.tab">Вкладки</string>
+
+    <!--Языки -->
+    <string name="string.lang.russian">Русский</string>
+    <string name="string.lang.english">Английский</string>
+    <string name="string.lang.short.russian">RU</string>
+    <string name="string.lang.short.english">EN</string>
+
+    <!-- Табы -->
+    <string name="string.tab.history">История</string>
+    <string name="string.tab.favourite">Избранное</string>
+
+
+</resources>
