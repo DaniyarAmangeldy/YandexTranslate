@@ -5,7 +5,6 @@ import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -16,19 +15,17 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 
-import javax.inject.Inject;
-
 import butterknife.ButterKnife;
 import daniyaramangeldy.yandextranslate.R;
-import daniyaramangeldy.yandextranslate.application.MyApplication;
 import daniyaramangeldy.yandextranslate.databinding.FragmentMainBinding;
+import daniyaramangeldy.yandextranslate.mvp.presenter.MainFragmentPresenter;
 import daniyaramangeldy.yandextranslate.ui.adapter.NavigationPagerAdapter;
-import daniyaramangeldy.yandextranslate.view.MainView;
+import daniyaramangeldy.yandextranslate.mvp.view.MainView;
 
 
 public class FragmentMain extends MvpAppCompatFragment implements MainView, AHBottomNavigation.OnTabSelectedListener {
-    @Inject
-    Resources res;
+
+    private Resources res;
 
     private FragmentMainBinding binding;
     private NavigationPagerAdapter adapter;
@@ -38,17 +35,16 @@ public class FragmentMain extends MvpAppCompatFragment implements MainView, AHBo
         // Required empty public constructor
     }
 
+    MainFragmentPresenter providePresenter(){
+        return new MainFragmentPresenter();
+    }
 
     public static FragmentMain newInstance() {
         FragmentMain fragment = new FragmentMain();
         return fragment;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ((MyApplication) getActivity().getApplication()).component().inject(this);
-    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,11 +63,12 @@ public class FragmentMain extends MvpAppCompatFragment implements MainView, AHBo
 
     @Override
     public void initView() {
+        res = getResources();
         pager = binding.fragmentMainContainer;
         AHBottomNavigation navigation = binding.fragmentMainNavigation;
 
         AHBottomNavigationItem itemTranslate = new AHBottomNavigationItem(
-                res.getString(R.string.string_navigation_translate),ContextCompat.getDrawable(getContext(),R.drawable.ic_translate_black_36dp),ContextCompat.getColor(getContext(),R.color.colorPrimaryDark));
+                res.getString(R.string.string_navigation_translate),ContextCompat.getDrawable(getContext(),R.drawable.ic_translate_black_36dp),ContextCompat.getColor(getContext(),R.color.colorPrimary));
         AHBottomNavigationItem itemBookmark = new AHBottomNavigationItem(
                 res.getString(R.string.string_navigation_tab), ContextCompat.getDrawable(getContext(),R.drawable.ic_bookmark_black_36dp),ContextCompat.getColor(getContext(),R.color.colorAccent));
 

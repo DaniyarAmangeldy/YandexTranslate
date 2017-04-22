@@ -3,6 +3,7 @@
 
     <string name="string.search.history">Найти в истории</string>
     <string name="string.search.favourite">Найти в избранном</string>
+    <string name="string.hint.input">Напишите текст...</string>
 
     <!-- Панель навигации -->
     <string name="string.navigation.translate">Перевод</string>

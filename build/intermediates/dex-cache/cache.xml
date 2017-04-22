@@ -3,201 +3,12 @@
 
     <item
         is-multidex="true"
-        jar="/Users/daniyaramangeldy/.gradle/caches/modules-2/files-2.1/com.google.dagger/dagger/2.10/72b1eae80561b66f0a24b300ab0dfafde959eb58/dagger-2.10.jar"
+        jar="/Users/daniyaramangeldy/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit2/adapter-rxjava2/2.2.0/3ee0e527143abbe130ddba4c1fa6c4be5d66ed5c/adapter-rxjava2-2.2.0.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="72b1eae80561b66f0a24b300ab0dfafde959eb58">
-        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/debug/folders/1000/10/dagger-2.10_176bbb1544a765c305230b7e261a91245c6db3f4/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/daniyaramangeldy/.gradle/caches/modules-2/files-2.1/com.arello-mobile/moxy/1.5.1/fe465ee659f328e619825d095b8064bf758dffbb/moxy-1.5.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="fe465ee659f328e619825d095b8064bf758dffbb">
-        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/debug/folders/1000/10/moxy-1.5.1_eae6caf415f035d11d17924ac1d897a3222576f7/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/daniyaramangeldy/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit2/retrofit/2.2.0/41e67dba73c3347e4503761642c39d0e06ca1f2/retrofit-2.2.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="041e67dba73c3347e4503761642c39d0e06ca1f2">
-        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/debug/folders/1000/10/retrofit-2.2.0_c314df7e1eb5aff3767e20deb58cc2d5e361ad48/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/daniyaramangeldy/.gradle/caches/modules-2/files-2.1/com.squareup.leakcanary/leakcanary-analyzer/1.5/3277b0b0c2ace34a2edb5ddf9d1f67829561fb8f/leakcanary-analyzer-1.5.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="3277b0b0c2ace34a2edb5ddf9d1f67829561fb8f">
-        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/debug/folders/1000/10/leakcanary-analyzer-1.5_1619c30d8a44a2d36069c44c8c1321a8649e466a/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/daniyaramangeldy/.gradle/caches/modules-2/files-2.1/io.reactivex.rxjava2/rxjava/2.0.1/57f850a6b317e5582f1dbaff10a9e7d7e1fcdcfb/rxjava-2.0.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="57f850a6b317e5582f1dbaff10a9e7d7e1fcdcfb">
-        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/debug/folders/1000/10/rxjava-2.0.1_c4e3649fd935006472f5f36cb7540145454a3ebe/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/daniyaramangeldy/.gradle/caches/modules-2/files-2.1/com.squareup.haha/haha/2.0.3/640a438d2d415c056ca6a673ac26b183b044e160/haha-2.0.3.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="640a438d2d415c056ca6a673ac26b183b044e160">
-        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/debug/folders/1000/10/haha-2.0.3_6d152aaec1b2241883974c5678642cca696f00ed/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/daniyaramangeldy/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.7.0/6edbebdd8868708db718d15c09c4b28037fd487e/okhttp-3.7.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="6edbebdd8868708db718d15c09c4b28037fd487e">
-        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/debug/folders/1000/10/okhttp-3.7.0_2351af31f17a75dda7ac582808fb4b7357e4d8fb/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/daniyaramangeldy/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.12.0/3742beff8024d0a0073d284b7c5e4cbf73d99b25/okio-1.12.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="3742beff8024d0a0073d284b7c5e4cbf73d99b25">
-        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/debug/folders/1000/10/okio-1.12.0_21c2997a4b89083d8cf7c43b9324e06069e45b98/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/daniyaramangeldy/.android/build-cache/435bb4b0a36f2c5cb032002e14847e70d73f40a7/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="152de8da301561dcb0946471697a420d8f7a68c5">
-        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_0054af31a1cae31bfaf8f954359b868b5cac7f5a/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/daniyaramangeldy/.gradle/caches/modules-2/files-2.1/com.arello-mobile/moxy-app-compat/1.5.1/ad03ce3cc32baa44f824cc392c94ebb70149ff61/moxy-app-compat-1.5.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="ad03ce3cc32baa44f824cc392c94ebb70149ff61">
-        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/debug/folders/1000/10/moxy-app-compat-1.5.1_996c3dfb138a83d5a48fe7552a2eb52930ee2472/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/daniyaramangeldy/.android/build-cache/e62911ae1816c2f097c0726f4b2da7915e6940a9/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="c7a2672b3122b897a0751f327929ae405ea02bf7">
-        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_df1f33ed892df5be18ae8615719cf923f4501e8f/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/daniyaramangeldy/.gradle/caches/modules-2/files-2.1/org.reactivestreams/reactive-streams/1.0.0/14b8c877d98005ba3941c9257cfe09f6ed0e0d74/reactive-streams-1.0.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="14b8c877d98005ba3941c9257cfe09f6ed0e0d74">
-        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/debug/folders/1000/10/reactive-streams-1.0.0_ab5a9b04581a18d14ed6bc884d82bbb18c04e4e9/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/daniyaramangeldy/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit2/converter-gson/2.2.0/a09926806199499a20b2f5168779499abfa33342/converter-gson-2.2.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="a09926806199499a20b2f5168779499abfa33342">
-        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/debug/folders/1000/10/converter-gson-2.2.0_c1bfc36c10aec84fe4f19bbe27231d95f8e9f7d0/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/daniyaramangeldy/.android/build-cache/96ec8678a047676cbbcc23d08bde1cc2f6f8f093/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="7f2f348b830f292429db987f74ba3e67c6752322">
-        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_f64db5493068692242d0e462e4249cc9d34976ee/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/daniyaramangeldy/.android/build-cache/c67323abd743af13d5610dfad207315e263ceb44/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="4119ea97a7191ff9b8f33b534ea220448f62f491">
-        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_46219014542dc8873d2ae5821205cbdda7d57ada/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/daniyaramangeldy/.android/build-cache/ba0a153a187cbefaa1deaa12420118d0118f185f/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="e51c2f662bb72419632af5192553c37e33890a99">
-        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_1f2a821dc0e14024990fc9ce37c068844d18d363/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/daniyaramangeldy/.gradle/caches/modules-2/files-2.1/com.jakewharton/butterknife-annotations/8.5.1/bb67dad90bab7cd77a8f7f1b8442b47e3a2326bc/butterknife-annotations-8.5.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="bb67dad90bab7cd77a8f7f1b8442b47e3a2326bc">
-        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/debug/folders/1000/10/butterknife-annotations-8.5.1_80ea9300fa4ec5a18ce4f260ea163567173d2ac0/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/daniyaramangeldy/.gradle/caches/modules-2/files-2.1/javax.inject/javax.inject/1/6975da39a7040257bd51d21a231b76c915872d38/javax.inject-1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="6975da39a7040257bd51d21a231b76c915872d38">
-        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/debug/folders/1000/10/javax.inject-1_bfe4d37bec2b0a46e1e02da8ebd2b4b450136c97/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/daniyaramangeldy/.gradle/caches/modules-2/files-2.1/com.arello-mobile/moxy-android/1.5.1/3650174abad6a7945a1b4d81e4109924d1068f34/moxy-android-1.5.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="3650174abad6a7945a1b4d81e4109924d1068f34">
-        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/debug/folders/1000/10/moxy-android-1.5.1_1f0ec2f5d1649a2f9fcd925608539752cd1fabc8/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/daniyaramangeldy/.android/build-cache/1ded729ca4a3ecf982836f8cb70bbf6a267dfe73/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="19f281a785ca0eb5f6799fc7bf7ca199a9ca1e8b">
-        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_eea418e9896b3d8b059839455bdc5dea09672cd5/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/daniyaramangeldy/.android/build-cache/10ffef02d73f19fbc2ceb19e5f4805af38bfd4d9/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="68956f5ba1517b7a3d513ba540548e257741cbae">
-        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_bac44d4881b2c4f933990d69b44315fb2b6d8b9a/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Applications/Android Studio.app/Contents/gradle/m2repository/com/android/databinding/baseLibrary/2.3.1/baseLibrary-2.3.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="2626e02aa9592edd5386d87408e05727303d9ded">
-        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/debug/folders/1000/10/baseLibrary-2.3.1_45ff8b5297dae1cdea196560e4beefe7fd169b37/classes.dex" />
+        sha1="3ee0e527143abbe130ddba4c1fa6c4be5d66ed5c">
+        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/dev/debug/folders/1000/10/adapter-rxjava2-2.2.0_2f5f73b8e336a1eb1fcff74224ea6cebbbbe4539/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -206,61 +17,25 @@
         optimize="true"
         revision="25.0.2"
         sha1="4ab7b0182975bc57c49efc5e0b3baa4a10e4ec08">
-        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/debug/folders/1000/10/activeandroid-3.1.0-SNAPSHOT_c2aafbfc461d27e7f387ff75bcb83f172bd2dfe4/classes.dex" />
+        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/dev/debug/folders/1000/10/activeandroid-3.1.0-SNAPSHOT_c2aafbfc461d27e7f387ff75bcb83f172bd2dfe4/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/Users/daniyaramangeldy/.android/build-cache/c20d8633b9bb81fad808cbf24e667ac48de52c6a/output/jars/classes.jar"
+        jar="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/incremental-classes/dev/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="ea6a989b83d19b1b461281e0475a6cd6514897f8">
-        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_7c82b2f55673ed007adb4cac2f2819c87ed45d73/classes.dex" />
+        sha1="1e9b9a5ee5c8dd5a700c8cbe7f3a4214a71c6920">
+        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/dev/debug/folders/1000/10000/instant-run-bootstrap_ff0255e0c4411d2584fca15d525e4a8f0479090a/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/Users/daniyaramangeldy/.gradle/caches/modules-2/files-2.1/ru.terrakok.cicerone/cicerone/1.2.1/eff6a1d43b745fe7945570f2eb058e383efce60a/cicerone-1.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="eff6a1d43b745fe7945570f2eb058e383efce60a">
-        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/debug/folders/1000/10/cicerone-1.2.1_da10f9b203a64bea38b89d606e161f307a3c4774/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jar="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/incremental-runtime-classes/dev/debug/instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="510aa6efc159983dfbffa676a0dae37568c0a46f">
-        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_476907f7c8878a74d916af43757ae7078cdb3ae8/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="146b2081d765bb28768f5bd436156c42cb782163">
-        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_2674f8d64fdce9a96c66639d5b4cb376400da97b/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/daniyaramangeldy/.gradle/caches/modules-2/files-2.1/com.squareup.leakcanary/leakcanary-watcher/1.5/288101b16513158c2923ad3fb6161d1452b65e73/leakcanary-watcher-1.5.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="288101b16513158c2923ad3fb6161d1452b65e73">
-        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/debug/folders/1000/10/leakcanary-watcher-1.5_acfd8cd542d8c122766974be4097924598edcf0f/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/daniyaramangeldy/.android/build-cache/01e9f24d61127b2578e58c956d2703fefaaf77d6/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="c8ba41bea7f78f8bdf3a803b9d08eb3fff416706">
-        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_56ad8f75db20a2917f6bc7578a2c968e3743b8ca/classes.dex" />
+        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/dev/debug/folders/1000/10000/instant-run_c3793aecba7bd4368252ebbbcef2c4348437fb48/classes.dex" />
     </item>
 
 </items>

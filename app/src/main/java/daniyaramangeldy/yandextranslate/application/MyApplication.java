@@ -2,10 +2,11 @@ package daniyaramangeldy.yandextranslate.application;
 
 import android.app.Application;
 
+import com.activeandroid.ActiveAndroid;
 import com.squareup.leakcanary.LeakCanary;
 
 import daniyaramangeldy.yandextranslate.di.AppComponent;
-import daniyaramangeldy.yandextranslate.di.AppModule;
+import daniyaramangeldy.yandextranslate.di.modules.AppModule;
 import daniyaramangeldy.yandextranslate.di.DaggerAppComponent;
 
 /**
@@ -14,11 +15,12 @@ import daniyaramangeldy.yandextranslate.di.DaggerAppComponent;
 
 public class MyApplication extends Application {
 
-    private AppComponent component;
+    private static AppComponent component;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        ActiveAndroid.initialize(this);
 
         if (LeakCanary.isInAnalyzerProcess(this)) {
             return;
@@ -31,7 +33,7 @@ public class MyApplication extends Application {
                 .build();
     }
 
-    public AppComponent component() {
+    public static AppComponent component() {
         return component;
 
 
