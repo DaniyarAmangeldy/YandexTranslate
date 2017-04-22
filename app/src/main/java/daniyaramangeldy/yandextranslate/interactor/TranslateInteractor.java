@@ -1,6 +1,6 @@
 package daniyaramangeldy.yandextranslate.interactor;
 
-import daniyaramangeldy.yandextranslate.mvp.model.entity.TranslateResponse;
+import daniyaramangeldy.yandextranslate.mvp.model.entity.RealmTranslateResponse;
 import io.reactivex.Observable;
 
 /**
@@ -9,6 +9,6 @@ import io.reactivex.Observable;
 
 public interface TranslateInteractor {
 
-    Observable<TranslateResponse> translateText(String text);
+    Observable<RealmTranslateResponse> translateText(String text);
 
 }

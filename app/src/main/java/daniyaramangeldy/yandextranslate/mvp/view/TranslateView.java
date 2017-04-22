@@ -7,8 +7,8 @@ import com.arellomobile.mvp.MvpView;
  */
 
 public interface TranslateView extends MvpView {
-    void showMessage(int message);
     void swapLanguage();
     void showTranslateText(String text);
     void showError(String error);
+    void eventBookmark();
 }

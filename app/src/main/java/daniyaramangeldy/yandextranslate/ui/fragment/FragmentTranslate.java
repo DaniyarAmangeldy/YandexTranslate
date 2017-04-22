@@ -1,6 +1,7 @@
 package daniyaramangeldy.yandextranslate.ui.fragment;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
@@ -10,10 +11,12 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
@@ -36,6 +39,7 @@ import daniyaramangeldy.yandextranslate.utils.Utils;
 
 public class FragmentTranslate extends MvpAppCompatFragment implements TranslateView, TextWatcher {
     private final String EMPTY_MESSAGE = "";
+    private final int REQUEST_UPDATE_HISTORY = 2;
 
     @InjectPresenter
     TranslatePresenter presenter;
@@ -43,7 +47,7 @@ public class FragmentTranslate extends MvpAppCompatFragment implements Translate
     private FragmentTranslateBinding binding;
     private Timer timer;
     private String lastWord;
-
+    private InputMethodManager imm;
     public FragmentTranslate() {
         // Required empty public constructor
     }
@@ -63,7 +67,7 @@ public class FragmentTranslate extends MvpAppCompatFragment implements Translate
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(savedInstanceState!=null){
-            String lastWord = savedInstanceState.getString("input");
+            lastWord = savedInstanceState.getString("input");
         }
     }
 
@@ -84,28 +88,16 @@ public class FragmentTranslate extends MvpAppCompatFragment implements Translate
     }
 
     private void initView() {
+        imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         res = getResources();
-        binding.fragmentTranslateInput.setMovementMethod(new ScrollingMovementMethod());
+        binding.fragmentTranslateOutput.setMovementMethod(new ScrollingMovementMethod());
         binding.fragmentTranslateLang1.setText(res.getString(R.string.string_lang_russian));
         binding.fragmentTranslateLang2.setText(res.getString(R.string.string_lang_english));
         if(lastWord!=null) binding.fragmentTranslateInput.setText(lastWord);
         binding.fragmentTranslateInput.addTextChangedListener(this);
     }
 
-    @OnClick(R.id.fragment_translate_input_btn_mic)
-    public void inputMicClick(){
-        presenter.inputMic();
-    }
 
-    @OnClick(R.id.fragment_translate_input_btn_voice)
-    public void inputVoiceClick(){
-        presenter.inputVoice();
-    }
-
-    @OnClick(R.id.fragment_translate_output_btn_voice)
-    public void outputVoiceClick(){
-        presenter.outputVoice();
-    }
 
     @OnClick(R.id.fragment_translate_output_btn_bookmark)
     public void addBookmarkClick(){
@@ -132,13 +124,8 @@ public class FragmentTranslate extends MvpAppCompatFragment implements Translate
     }
 
     private void focusInput() {
-        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(binding.fragmentTranslateInput, InputMethodManager.SHOW_IMPLICIT);
-    }
 
-    @Override
-    public void showMessage(int message) {
-        Toast.makeText(getContext(), res.getString(message), Toast.LENGTH_SHORT).show();
+        imm.showSoftInput(binding.fragmentTranslateInput, InputMethodManager.SHOW_IMPLICIT);
     }
 
     @Override
@@ -146,11 +133,8 @@ public class FragmentTranslate extends MvpAppCompatFragment implements Translate
         String temp = binding.fragmentTranslateLang1.getText().toString();
         binding.fragmentTranslateLang1.setText(binding.fragmentTranslateLang2.getText().toString());
         binding.fragmentTranslateLang2.setText(temp);
-        if(!TextUtils.isEmpty(binding.fragmentTranslateOutput.getText().toString()) &&
-                !TextUtils.isEmpty(binding.fragmentTranslateInput.getText().toString())){
-            temp = binding.fragmentTranslateInput.getText().toString();
+        if(!TextUtils.isEmpty(binding.fragmentTranslateInput.getText().toString())){
             binding.fragmentTranslateInput.setText(binding.fragmentTranslateOutput.getText().toString());
-            binding.fragmentTranslateOutput.setText(temp);
             int position = binding.fragmentTranslateInput.length();
             binding.fragmentTranslateInput.setSelection(position);
 
@@ -160,11 +144,17 @@ public class FragmentTranslate extends MvpAppCompatFragment implements Translate
     @Override
     public void showTranslateText(String text) {
         binding.fragmentTranslateOutput.setText(text);
+
     }
 
     @Override
     public void showError(String error) {
         Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void eventBookmark() {
+        getTargetFragment().onActivityResult(REQUEST_UPDATE_HISTORY, Activity.RESULT_OK,null);
     }
 
     @Override

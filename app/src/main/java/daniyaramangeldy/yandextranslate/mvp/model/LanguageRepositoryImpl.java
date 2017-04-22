@@ -2,18 +2,22 @@ package daniyaramangeldy.yandextranslate.mvp.model;
 
 
 import android.support.v4.util.ArrayMap;
-import android.util.Log;
 
-import com.activeandroid.query.Select;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import daniyaramangeldy.yandextranslate.api.YandexTranslateApi;
 import daniyaramangeldy.yandextranslate.mvp.model.entity.Language;
+import daniyaramangeldy.yandextranslate.mvp.model.entity.RealmString;
+import daniyaramangeldy.yandextranslate.mvp.model.entity.RealmTranslateResponse;
 import daniyaramangeldy.yandextranslate.mvp.model.entity.TranslateResponse;
 import io.reactivex.Observable;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * Created by daniyaramangeldy on 21.04.17.
@@ -21,35 +25,59 @@ import io.reactivex.Observable;
 
 public class LanguageRepositoryImpl implements LanguageRepository {
     private YandexTranslateApi api;
-    private Select db;
     private String token;
-    private final String LANG_RUSSIAN = "ru";
-    private static final String TAG = "LanguageRepositoryImpl";
+    private Realm realm;
 
     @Inject
-    public LanguageRepositoryImpl(YandexTranslateApi api, Select db,String token) {
+    public LanguageRepositoryImpl(YandexTranslateApi api, String token) {
         this.api = api;
-        this.db = db;
         this.token = token;
     }
 
 
     @Override
     public Observable<List<Language>> getLanguages() {
-            return api.getLanguages(token,LANG_RUSSIAN);
+        return api.getLanguages(token, "ru");
     }
 
     @Override
-    public Observable<TranslateResponse> translateText(String text, String lang) {
-        ArrayMap<String,String> params = new ArrayMap<>();
-        params.put("key",token);
-        params.put("text",text);
-        params.put("lang","ru-en");
-        return api.getTranslate(params);
+    public Observable<RealmTranslateResponse> translateText(String text, String lang) {
+        ArrayMap<String, String> params = new ArrayMap<>();
+        params.put("key", token);
+        params.put("text", text);
+        params.put("lang", "ru-en");
+        return api.getTranslate(params).doOnNext(this::addTranslate);
+    }
+
+    @Override
+    public List<TranslateResponse> getHistory() {
+        realm = Realm.getDefaultInstance();
+        ArrayList<TranslateResponse> historyList = new ArrayList<>();
+        RealmResults<RealmTranslateResponse> realmHistoryList =
+                realm.where(RealmTranslateResponse.class).findAll();
+        TranslateResponse response;
+        ArrayList<String> stringList;
+        for (RealmTranslateResponse realm : realmHistoryList) {
+            stringList = new ArrayList<>();
+            response = new TranslateResponse();
+            for (RealmString realmString : realm.getText()) {
+                stringList.add(realmString.getString());
+            }
+            response.setId(realm.getId());
+            response.setLang(realm.getLang());
+            response.setFavourite(realm.isFavourite());
+            response.setText(stringList);
+            historyList.add(response);
+        }
+        realm.close();
+        Collections.reverse(historyList);
+        return historyList;
 
     }
 
-    private void putToDb(TranslateResponse translateResponse) {
-
+    private void addTranslate(RealmTranslateResponse realmTranslateResponse) {
+        realm = Realm.getDefaultInstance();
+        realm.executeTransaction(realm1 -> realm1.copyToRealmOrUpdate(realmTranslateResponse));
+        realm.close();
     }
 }

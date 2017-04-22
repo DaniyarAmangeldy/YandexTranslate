@@ -4,17 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 
-import com.activeandroid.query.Select;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
 import daniyaramangeldy.yandextranslate.application.MyApplication;
-import daniyaramangeldy.yandextranslate.interactor.TranslateInteractor;
-import daniyaramangeldy.yandextranslate.interactor.TranslateInteractorImpl;
-import daniyaramangeldy.yandextranslate.mvp.model.LanguageRepository;
-import daniyaramangeldy.yandextranslate.mvp.model.LanguageRepositoryImpl;
 
 /**
  * Базовый модуль

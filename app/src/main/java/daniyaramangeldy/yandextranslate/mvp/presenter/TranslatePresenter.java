@@ -9,10 +9,9 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import javax.inject.Inject;
 
-import daniyaramangeldy.yandextranslate.R;
 import daniyaramangeldy.yandextranslate.application.MyApplication;
 import daniyaramangeldy.yandextranslate.interactor.TranslateInteractor;
-import daniyaramangeldy.yandextranslate.mvp.model.entity.TranslateResponse;
+import daniyaramangeldy.yandextranslate.mvp.model.entity.RealmTranslateResponse;
 import daniyaramangeldy.yandextranslate.mvp.view.TranslateView;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -32,20 +31,7 @@ public class TranslatePresenter extends MvpPresenter<TranslateView> {
         MyApplication.component().inject(this);
      }
 
-     public void inputVoice(){
-        getViewState().showMessage(R.string.string_lang_english);
-     }
-
-    public void inputMic(){
-        getViewState().showMessage(R.string.string_lang_russian);
-    }
-
-    public void outputVoice(){
-        getViewState().showMessage(R.string.string_lang_short_english);
-    }
-
     public void addBookmark(){
-        getViewState().showMessage(R.string.string_lang_short_russian);
     }
 
     public void swapLanguage(){
@@ -62,7 +48,7 @@ public class TranslatePresenter extends MvpPresenter<TranslateView> {
 
     }
 
-    private class resultObserver implements Observer<TranslateResponse> {
+    private class resultObserver implements Observer<RealmTranslateResponse> {
 
         @Override
         public void onSubscribe(Disposable d) {
@@ -70,8 +56,10 @@ public class TranslatePresenter extends MvpPresenter<TranslateView> {
         }
 
         @Override
-        public void onNext(TranslateResponse value) {
-            getViewState().showTranslateText(value.getText().get(0));
+        public void onNext(RealmTranslateResponse value) {
+            getViewState().eventBookmark();
+            getViewState()
+                    .showTranslateText(value.getText().get(0).getString());
         }
 
         @Override
@@ -86,4 +74,9 @@ public class TranslatePresenter extends MvpPresenter<TranslateView> {
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+    }
 }

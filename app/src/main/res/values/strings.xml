@@ -19,5 +19,8 @@
     <string name="string.tab.history">История</string>
     <string name="string.tab.favourite">Избранное</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>

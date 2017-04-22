@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:layout_margin="8dp"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <CheckBox
+        android:id="@+id/bookmarks_item_btn_bookmark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@drawable/ic_favourite"
+        android:layout_centerVertical="true"
+        android:background="?selectableItemBackgroundBorderless"
+        android:layout_margin="8dp"/>
+
+    <TextView
+        android:id="@+id/bookmarks_item_text_original"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/bookmarks_item_btn_bookmark"
+        android:layout_toStartOf="@+id/bookmarks_item_lang"
+        android:layout_marginTop="8dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        style="@style/textInputStyle"
+        tools:text="Enigmaasdasdasdasdasdsadasdasdasdsadsadsadsadsa"
+        />
+    <TextView
+        android:id="@+id/bookmarks_item_text_translate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bookmarks_item_text_original"
+        android:layout_toStartOf="@+id/bookmarks_item_lang"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_alignStart="@id/bookmarks_item_text_original"
+        tools:hint="Энигма"
+        />
+
+    <TextView
+        android:id="@+id/bookmarks_item_lang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        tools:text="EN - RU"
+
+        />
+
+
+
+</RelativeLayout>

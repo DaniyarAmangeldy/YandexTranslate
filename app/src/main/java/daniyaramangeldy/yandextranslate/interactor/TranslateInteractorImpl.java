@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import javax.inject.Inject;
 
 import daniyaramangeldy.yandextranslate.mvp.model.LanguageRepository;
-import daniyaramangeldy.yandextranslate.mvp.model.entity.TranslateResponse;
+import daniyaramangeldy.yandextranslate.mvp.model.entity.RealmTranslateResponse;
 import io.reactivex.Observable;
 
 /**
@@ -23,7 +23,7 @@ public class TranslateInteractorImpl implements TranslateInteractor {
         this.sp = sp;
     }
 
-    public Observable<TranslateResponse> translateText(String text) {
+    public Observable<RealmTranslateResponse> translateText(String text) {
         String lang = getLanguage();
         return langRepository
                 .translateText(text, lang);
@@ -32,5 +32,6 @@ public class TranslateInteractorImpl implements TranslateInteractor {
     private String getLanguage() {
         return sp.getString("lang", "ru");
     }
+
 
 }

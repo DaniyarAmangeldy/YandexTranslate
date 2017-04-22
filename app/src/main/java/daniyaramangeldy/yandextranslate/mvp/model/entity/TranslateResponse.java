@@ -1,28 +1,23 @@
 package daniyaramangeldy.yandextranslate.mvp.model.entity;
 
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
-import com.activeandroid.annotation.Table;
-import com.google.gson.annotations.Expose;
-
 import java.util.ArrayList;
 
 /**
- * Created by daniyaramangeldy on 21.04.17.
+ * Created by daniyaramangeldy on 22.04.17.
  */
 
-@Table(name = "TranslateResponses")
-public class TranslateResponse extends Model{
-    @Column(name = "text")
-    @Expose
+public class TranslateResponse {
+    private String id;
     private ArrayList<String> text;
-    @Column(name = "lang")
-    @Expose
     private String lang;
+    private boolean favourite;
 
-    public TranslateResponse(ArrayList<String> text, String lang) {
-        this.text = text;
-        this.lang = lang;
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public ArrayList<String> getText() {
@@ -39,5 +34,13 @@ public class TranslateResponse extends Model{
 
     public void setLang(String lang) {
         this.lang = lang;
+    }
+
+    public boolean isFavourite() {
+        return favourite;
+    }
+
+    public void setFavourite(boolean favourite) {
+        this.favourite = favourite;
     }
 }

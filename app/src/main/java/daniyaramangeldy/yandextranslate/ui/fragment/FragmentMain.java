@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 import daniyaramangeldy.yandextranslate.R;
 import daniyaramangeldy.yandextranslate.databinding.FragmentMainBinding;
 import daniyaramangeldy.yandextranslate.mvp.presenter.MainFragmentPresenter;
-import daniyaramangeldy.yandextranslate.ui.adapter.NavigationPagerAdapter;
+import daniyaramangeldy.yandextranslate.ui.adapter.BottomNavigationPagerAdapter;
 import daniyaramangeldy.yandextranslate.mvp.view.MainView;
 
 
@@ -28,7 +28,7 @@ public class FragmentMain extends MvpAppCompatFragment implements MainView, AHBo
     private Resources res;
 
     private FragmentMainBinding binding;
-    private NavigationPagerAdapter adapter;
+    private BottomNavigationPagerAdapter adapter;
     private ViewPager pager;
 
     public FragmentMain() {
@@ -58,10 +58,6 @@ public class FragmentMain extends MvpAppCompatFragment implements MainView, AHBo
 
 
     @Override
-    public void showMessage(int message) {
-    }
-
-    @Override
     public void initView() {
         res = getResources();
         pager = binding.fragmentMainContainer;
@@ -83,7 +79,7 @@ public class FragmentMain extends MvpAppCompatFragment implements MainView, AHBo
         }
         navigation.setColored(true);
 
-        adapter = new NavigationPagerAdapter(getFragmentManager());
+        adapter = new BottomNavigationPagerAdapter(getFragmentManager());
         pager.setAdapter(adapter);
     }
 

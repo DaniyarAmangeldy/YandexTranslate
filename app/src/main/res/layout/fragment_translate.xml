@@ -24,7 +24,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/ic_swap_horiz_black_36dp" />
+                    android:src="@drawable/ic_swap_36dp" />
 
                 <TextView
                     android:id="@+id/fragment_translate_lang_1"
@@ -81,24 +81,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
                 android:padding="8dp"
-                android:src="@drawable/ic_close_black_24dp" />
-
-            <ImageView
-                android:id="@+id/fragment_translate_input_btn_mic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:padding="8dp"
-                android:src="@drawable/ic_mic_black_24dp" />
-
-            <ImageView
-                android:id="@+id/fragment_translate_input_btn_voice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:padding="8dp"
-                android:src="@drawable/ic_volume_up_black_24dp" />
+                android:src="@drawable/ic_close_36dp" />
 
         </RelativeLayout>
 
@@ -120,8 +103,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/fragment_translate_output"
             android:layout_alignParentEnd="true"
-            android:padding="8dp"
-            android:src="@drawable/ic_bookmark_black_24dp" />
+            android:src="@drawable/ic_favourite_unselected_36dp" />
 
 
     </RelativeLayout>

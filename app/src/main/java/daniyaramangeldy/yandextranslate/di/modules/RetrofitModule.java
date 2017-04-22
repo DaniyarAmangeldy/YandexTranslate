@@ -7,6 +7,8 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import daniyaramangeldy.yandextranslate.mvp.model.entity.RealmTranslateResponse;
+import daniyaramangeldy.yandextranslate.mvp.model.mapper.TranslateMapper;
 import okhttp3.OkHttpClient;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
@@ -37,7 +39,10 @@ public class RetrofitModule {
 
     @Provides@Singleton
     public Gson getGson(){
-        return new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        return new GsonBuilder()
+                .excludeFieldsWithoutExposeAnnotation()
+                .registerTypeAdapter(RealmTranslateResponse.class, new TranslateMapper())
+                .create();
     }
 
     @Provides@Singleton
