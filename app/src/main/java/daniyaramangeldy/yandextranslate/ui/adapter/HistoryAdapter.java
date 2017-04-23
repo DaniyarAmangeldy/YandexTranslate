@@ -2,6 +2,7 @@ package daniyaramangeldy.yandextranslate.ui.adapter;
 
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
+import butterknife.OnClick;
+import butterknife.OnLongClick;
 import daniyaramangeldy.yandextranslate.R;
 import daniyaramangeldy.yandextranslate.mvp.model.entity.Favourite;
 import daniyaramangeldy.yandextranslate.mvp.model.entity.TranslateResponse;
@@ -20,7 +24,19 @@ import daniyaramangeldy.yandextranslate.mvp.model.entity.TranslateResponse;
  */
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.BookmarksHolder> {
+    private static final String TAG = "HistoryAdapter";
     private List<TranslateResponse> responseList;
+    private onClickListener clickListener;
+
+    public interface onClickListener {
+        void onClick(String text);
+
+        void onLongClick(View v, String text,int position);
+    }
+
+    public void setOnClickListener(onClickListener listener) {
+        this.clickListener = listener;
+    }
 
     public HistoryAdapter(List<TranslateResponse> responseList) {
         this.responseList = responseList;
@@ -49,6 +65,11 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.Bookmark
         notifyDataSetChanged();
     }
 
+    public void deleteItem(int position){
+        this.responseList.remove(position);
+        notifyItemRemoved(position);
+    }
+
 
     class BookmarksHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.bookmarks_item_btn_bookmark)
@@ -70,6 +91,30 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.Bookmark
             language.setText(response.getLang().toUpperCase());
             textOriginal.setText(response.getOriginalText());
             textTranslate.setHint(response.getText());
+        }
+
+        @OnClick(R.id.bookmarks_item_container)
+        public void holderClick() {
+            if (clickListener != null) {
+                clickListener.onClick(responseList.get(getAdapterPosition()).getOriginalText());
+            }
+        }
+
+        @OnLongClick(R.id.bookmarks_item_container)
+        public boolean holderLongClick(View v) {
+            if (clickListener != null) {
+                clickListener.onLongClick(v, responseList.get(getAdapterPosition()).getOriginalText(),getAdapterPosition());
+            }
+            return true;
+        }
+
+        @OnCheckedChanged(R.id.bookmarks_item_btn_bookmark)
+        public void favouriteCheck(boolean isChecked) {
+            if (isChecked) {
+                Log.d(TAG, "favouriteCheck: checked");
+            } else {
+                Log.d(TAG, "favouriteCheck: not checked");
+            }
         }
     }
 }

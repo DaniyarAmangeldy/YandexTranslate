@@ -16,4 +16,6 @@ public interface TranslateInteractor {
 
     void swapLanguage();
 
+    boolean setLanguage(String lang);
+
 }

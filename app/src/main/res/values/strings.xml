@@ -32,5 +32,8 @@
     <!-- Текст для требования -->
     <string name="string.label.link">Переведено сервисом «Яндекс.Переводчик»</string>
 
+    <!-- popup menu -->
+    <string name="string.menu.delete">Удалить</string>
+
 
 </resources>

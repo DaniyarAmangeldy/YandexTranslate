@@ -10,10 +10,13 @@ import daniyaramangeldy.yandextranslate.mvp.model.entity.TranslateResponse;
  */
 
 public interface BookmarksInteractor {
-    List<TranslateResponse> getHistory();
+    List<TranslateResponse> getHistoryList();
     boolean clearHistory();
     boolean addFavourite(TranslateResponse response);
     boolean removeFavourite(String name);
+    boolean removeHistory(String text);
     List<Favourite> getFavourites();
     TranslateResponse getLastRequest();
+    Favourite getFavourite(String text);
+    TranslateResponse getHistory(String text);
 }

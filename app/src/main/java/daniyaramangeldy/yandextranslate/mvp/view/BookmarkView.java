@@ -9,5 +9,6 @@ import com.arellomobile.mvp.MvpView;
 public interface BookmarkView extends MvpView {
     void showError(String s);
     void onHistoryCleaned();
+    void navigateToTranslate(String original,String translate,boolean favourite,String lang);
 
 }

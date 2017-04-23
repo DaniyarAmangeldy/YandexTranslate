@@ -87,6 +87,11 @@ public class TranslatePresenter extends MvpPresenter<TranslateView> {
         if(response!=null) getViewState().setLastResult(response.getOriginalText());
     }
 
+    public void setCurrentLanguage(String lang){
+        boolean result = translateInteractor.setLanguage(lang);
+        if(result) initCurrentLanguage();
+    }
+
 
     private class resultObserver implements Observer<TranslateResponse> {
 

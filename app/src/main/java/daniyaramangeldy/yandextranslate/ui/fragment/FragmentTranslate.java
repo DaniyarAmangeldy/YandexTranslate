@@ -1,8 +1,8 @@
 package daniyaramangeldy.yandextranslate.ui.fragment;
 
 
-import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,10 +33,16 @@ import daniyaramangeldy.yandextranslate.databinding.FragmentTranslateBinding;
 import daniyaramangeldy.yandextranslate.mvp.presenter.TranslatePresenter;
 import daniyaramangeldy.yandextranslate.mvp.view.TranslateView;
 
+import static android.app.Activity.RESULT_OK;
+
 
 public class FragmentTranslate extends MvpAppCompatFragment implements TranslateView, TextWatcher {
+    private static final String TAG = "FragmentTranslate";
     private final String EMPTY_MESSAGE = "";
     private final int REQUEST_UPDATE_HISTORY = 2;
+    private final int REQUEST_NAVIGATE = 3;
+    private static final String EXTRA_TEXT_ORIGINAL = "original";
+    private static final String EXTRA_LANGUAGE = "language";
 
     private boolean favouriteListenerOn = true;
 
@@ -93,7 +100,9 @@ public class FragmentTranslate extends MvpAppCompatFragment implements Translate
         imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         res = getResources();
         binding.fragmentTranslateOutput.setMovementMethod(new ScrollingMovementMethod());
-        if (lastWord != null) binding.fragmentTranslateInput.setText(lastWord);
+        if (lastWord != null) {
+            binding.fragmentTranslateInput.setText(lastWord);
+        }
         binding.fragmentTranslateInput.addTextChangedListener(this);
 
     }
@@ -119,7 +128,7 @@ public class FragmentTranslate extends MvpAppCompatFragment implements Translate
 
     @OnCheckedChanged(R.id.fragment_translate_output_btn_bookmark)
     public void FavouriteCheck(boolean isChecked) {
-        if(favouriteListenerOn) {
+        if (favouriteListenerOn) {
             if (!isChecked) {
                 presenter.removeFavourite();
             } else {
@@ -129,7 +138,7 @@ public class FragmentTranslate extends MvpAppCompatFragment implements Translate
     }
 
     @Override
-    public void checkFavourite(boolean check){
+    public void checkFavourite(boolean check) {
         favouriteListenerOn = false;
         binding.fragmentTranslateOutputBtnBookmark.setChecked(check);
         favouriteListenerOn = true;
@@ -170,7 +179,7 @@ public class FragmentTranslate extends MvpAppCompatFragment implements Translate
 
     @Override
     public void eventBookmark() {
-        getTargetFragment().onActivityResult(REQUEST_UPDATE_HISTORY, Activity.RESULT_OK, null);
+        getTargetFragment().onActivityResult(REQUEST_UPDATE_HISTORY, RESULT_OK, null);
     }
 
     @Override
@@ -191,6 +200,14 @@ public class FragmentTranslate extends MvpAppCompatFragment implements Translate
 
     @Override
     public void afterTextChanged(Editable s) {
+        if (s.length() > 0) {
+            binding.fragmentTranslateBtnClear.setVisibility(View.VISIBLE);
+            binding.fragmentTranslateOutputBtnBookmark.setVisibility(View.VISIBLE);
+        } else {
+            binding.fragmentTranslateOutput.setText(EMPTY_MESSAGE);
+            binding.fragmentTranslateBtnClear.setVisibility(View.INVISIBLE);
+            binding.fragmentTranslateOutputBtnBookmark.setVisibility(View.INVISIBLE);
+        }
         if (timer != null) {
             timer.purge();
             timer.cancel();
@@ -199,6 +216,7 @@ public class FragmentTranslate extends MvpAppCompatFragment implements Translate
         timer.schedule(new TranslateTask(s.toString()), 1000);
 
     }
+
 
     private class TranslateTask extends TimerTask {
         String text;
@@ -219,5 +237,18 @@ public class FragmentTranslate extends MvpAppCompatFragment implements Translate
             outState.putString("input", binding.fragmentTranslateInput.getText().toString());
         }
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_NAVIGATE && data != null) {
+                lastWord = data.getStringExtra(EXTRA_TEXT_ORIGINAL);
+                String language = data.getStringExtra(EXTRA_LANGUAGE);
+                binding.fragmentTranslateInput.setText(lastWord);
+                presenter.setCurrentLanguage(language);
+            }
+        }
     }
 }

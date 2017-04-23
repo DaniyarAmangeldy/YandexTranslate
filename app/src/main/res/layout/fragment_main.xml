@@ -7,12 +7,12 @@
         tools:context="daniyaramangeldy.yandextranslate.ui.fragment.FragmentMain">
 
 
-        <android.support.v4.view.ViewPager
+        <daniyaramangeldy.yandextranslate.ui.customView.NonSwipeableViewPager
             android:id="@+id/fragment_main_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/fragment_main_navigation">
-        </android.support.v4.view.ViewPager>
+        </daniyaramangeldy.yandextranslate.ui.customView.NonSwipeableViewPager>
 
         <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
             android:id="@+id/fragment_main_navigation"

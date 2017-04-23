@@ -20,8 +20,8 @@ public class BookmarksInteractorImpl implements BookmarksInteractor {
     }
 
     @Override
-    public List<TranslateResponse> getHistory() {
-        return repository.getHistory();
+    public List<TranslateResponse> getHistoryList() {
+        return repository.getHistoryList();
     }
 
     @Override
@@ -42,6 +42,11 @@ public class BookmarksInteractorImpl implements BookmarksInteractor {
     }
 
     @Override
+    public boolean removeHistory(String text) {
+        return repository.removeHistory(text);
+    }
+
+    @Override
     public List<Favourite> getFavourites() {
         return repository.getFavourites();
     }
@@ -49,5 +54,15 @@ public class BookmarksInteractorImpl implements BookmarksInteractor {
     @Override
     public TranslateResponse getLastRequest() {
         return repository.getLastRequest();
+    }
+
+    @Override
+    public Favourite getFavourite(String text) {
+        return repository.getFavourite(text);
+    }
+
+    @Override
+    public TranslateResponse getHistory(String text) {
+        return repository.getHistory(text);
     }
 }

@@ -69,5 +69,13 @@ public class TranslateInteractorImpl implements TranslateInteractor {
                 .apply();
     }
 
+    @Override
+    public boolean setLanguage(String lang) {
+        sp.edit()
+                .putString(KEY_LANG,lang)
+                .apply();
+        return true;
+    }
+
 
 }

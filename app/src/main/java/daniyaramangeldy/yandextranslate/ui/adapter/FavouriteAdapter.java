@@ -29,7 +29,6 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.Favo
 
     public interface onClickListener{
         void onClick(String id);
-        void onLongClick(View v,String id);
     }
 
     public void setOnClickListener(onClickListener listener){
@@ -93,17 +92,10 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.Favo
         @OnClick(R.id.bookmarks_item_container)
         public void itemClick(){
             if(clickListener!=null){
-                clickListener.onClick(responseList.get(getAdapterPosition()).getId());
+                clickListener.onClick(responseList.get(getAdapterPosition()).getOriginalText());
             }
         }
 
-        @OnLongClick(R.id.bookmarks_item_container)
-        public boolean itemLongClick(View v){
-            if(clickListener!=null && checkFlag){
-                clickListener.onLongClick(v,responseList.get(getAdapterPosition()).getId());
-            }
-            return true;
-        }
 
         @OnCheckedChanged(R.id.bookmarks_item_btn_bookmark)
         public void toggleBookmark(boolean isChecked){

@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -25,12 +27,12 @@ import daniyaramangeldy.yandextranslate.mvp.model.entity.Favourite;
 import daniyaramangeldy.yandextranslate.mvp.presenter.FavouritePresenter;
 import daniyaramangeldy.yandextranslate.mvp.view.FavouriteView;
 import daniyaramangeldy.yandextranslate.ui.adapter.FavouriteAdapter;
-import daniyaramangeldy.yandextranslate.ui.adapter.HistoryAdapter;
 
-public class FragmentFavourites extends MvpAppCompatFragment implements FavouriteView, FragmentBookmark.favouriteUpdateListener {
+public class FragmentFavourites extends MvpAppCompatFragment implements FavouriteView, FragmentBookmark.favouriteUpdateListener, FavouriteAdapter.onClickListener {
 
     private FragmentHistoryBinding binding;
     private FavouriteAdapter adapter;
+    private FragmentBookmark parentFragment;
 
     @InjectPresenter
     FavouritePresenter presenter;
@@ -53,7 +55,7 @@ public class FragmentFavourites extends MvpAppCompatFragment implements Favourit
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FragmentBookmark parentFragment = ((FragmentBookmark) getParentFragment());
+        parentFragment = ((FragmentBookmark) getParentFragment());
         parentFragment.setOnFavouriteUpdateListener(this);
     }
 
@@ -75,6 +77,7 @@ public class FragmentFavourites extends MvpAppCompatFragment implements Favourit
 
     private void initView() {
         presenter.getFavourite();
+
     }
 
     @Override
@@ -85,6 +88,7 @@ public class FragmentFavourites extends MvpAppCompatFragment implements Favourit
                     ((LinearLayoutManager)binding.bookmarksRv.getLayoutManager()).getOrientation());
             binding.bookmarksRv.addItemDecoration(dividerItemDecoration);
             adapter = new FavouriteAdapter(favourite);
+            adapter.setOnClickListener(this);
             binding.bookmarksRv.setAdapter(adapter);
         } else {
             adapter.setList(favourite);
@@ -101,7 +105,18 @@ public class FragmentFavourites extends MvpAppCompatFragment implements Favourit
     }
 
     @Override
+    public void navigateToTranslate(String original, String translate,String lang) {
+        parentFragment.navigateToTranslate(original,translate,true,lang);
+    }
+
+    @Override
     public void onUpdate() {
         presenter.getFavourite();
     }
+
+    @Override
+    public void onClick(String text) {
+        presenter.navigateToTranslate(text);
+    }
+
 }

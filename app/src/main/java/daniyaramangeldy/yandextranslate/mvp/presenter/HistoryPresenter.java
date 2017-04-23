@@ -10,6 +10,8 @@ import javax.inject.Inject;
 
 import daniyaramangeldy.yandextranslate.application.MyApplication;
 import daniyaramangeldy.yandextranslate.interactor.BookmarksInteractor;
+import daniyaramangeldy.yandextranslate.mvp.model.entity.Favourite;
+import daniyaramangeldy.yandextranslate.mvp.model.entity.TranslateResponse;
 import daniyaramangeldy.yandextranslate.mvp.view.HistoryView;
 
 
@@ -30,7 +32,18 @@ public class HistoryPresenter extends MvpPresenter<HistoryView> {
 
 
     public void getHistory() {
-        getViewState().initRecyclerViewOrUpdate(bookmarksInteractor.getHistory());
+        getViewState().initRecyclerViewOrUpdate(bookmarksInteractor.getHistoryList());
+    }
+
+    public void navigateToTranslate(String text){
+        TranslateResponse response = bookmarksInteractor.getHistory(text);
+        if(response!=null){
+            getViewState().navigateToTranslate(response.getOriginalText(),response.getText(),response.getLang());
+        }
+    }
+
+    public boolean removeFromHistory(String text){
+        return bookmarksInteractor.removeHistory(text);
     }
 
 

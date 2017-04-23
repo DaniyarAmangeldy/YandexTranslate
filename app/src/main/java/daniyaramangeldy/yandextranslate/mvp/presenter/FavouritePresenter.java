@@ -9,6 +9,7 @@ import javax.inject.Inject;
 
 import daniyaramangeldy.yandextranslate.application.MyApplication;
 import daniyaramangeldy.yandextranslate.interactor.BookmarksInteractor;
+import daniyaramangeldy.yandextranslate.mvp.model.entity.Favourite;
 import daniyaramangeldy.yandextranslate.mvp.view.FavouriteView;
 
 /**
@@ -29,6 +30,13 @@ public class FavouritePresenter extends MvpPresenter<FavouriteView> {
 
     public void getFavourite() {
         getViewState().initRecyclerViewOrUpdate(bookmarksInteractor.getFavourites());
+    }
+
+    public void navigateToTranslate(String text){
+        Favourite favourite = bookmarksInteractor.getFavourite(text);
+        if(favourite!=null){
+            getViewState().navigateToTranslate(favourite.getOriginalText(),favourite.getText(),favourite.getLang());
+        }
     }
 
 }

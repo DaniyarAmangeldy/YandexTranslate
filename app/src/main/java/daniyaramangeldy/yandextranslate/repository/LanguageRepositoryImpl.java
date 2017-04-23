@@ -15,12 +15,14 @@ import daniyaramangeldy.yandextranslate.api.YandexTranslateApi;
 import daniyaramangeldy.yandextranslate.mvp.model.entity.Favourite;
 import daniyaramangeldy.yandextranslate.mvp.model.entity.Language;
 import daniyaramangeldy.yandextranslate.mvp.model.entity.RealmFavourite;
+import daniyaramangeldy.yandextranslate.mvp.model.entity.RealmString;
 import daniyaramangeldy.yandextranslate.mvp.model.entity.RealmTranslateResponse;
 import daniyaramangeldy.yandextranslate.mvp.model.entity.TranslateResponse;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 
 /**
@@ -65,16 +67,6 @@ public class LanguageRepositoryImpl implements LanguageRepository {
         }
     }
 
-    private TranslateResponse parseTranslateFromFavourite(RealmFavourite favourite) {
-        TranslateResponse translateResponse = new TranslateResponse();
-        translateResponse.setId(favourite.getId());
-        translateResponse.setOriginalText(favourite.getOriginalText());
-        translateResponse.setLang(favourite.getLang());
-        translateResponse.setFavourite(favourite.isFavourite());
-        translateResponse.setText(favourite.getText());
-        return translateResponse;
-    }
-
     private RealmFavourite findTranslateFromFavourite(Realm realm, String text, String lang) {
         RealmFavourite favourite = realm.where(RealmFavourite.class)
                 .equalTo("originalText", text)
@@ -99,6 +91,7 @@ public class LanguageRepositoryImpl implements LanguageRepository {
             return Observable.just(cacheResponse)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread());
+
         }
 
         ArrayMap<String, String> params = new ArrayMap<>();
@@ -111,23 +104,6 @@ public class LanguageRepositoryImpl implements LanguageRepository {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(translateResponse -> addTranslate(translateResponse, text))
                 .map(this::parseTranslateFromRealmObject);
-    }
-
-    @Override
-    public List<TranslateResponse> getHistory() {
-        Realm realm = Realm.getDefaultInstance();
-        ArrayList<TranslateResponse> historyList = new ArrayList<>();
-        RealmResults<RealmTranslateResponse> realmHistoryList =
-                realm.where(RealmTranslateResponse.class).findAll();
-
-        for (RealmTranslateResponse response : realmHistoryList) {
-
-            historyList.add(parseTranslateFromRealmObject(response));
-        }
-        realm.close();
-        Collections.reverse(historyList);
-        return historyList;
-
     }
 
     @Override
@@ -198,6 +174,101 @@ public class LanguageRepositoryImpl implements LanguageRepository {
         }
     }
 
+    @Override
+    public Favourite getFavourite(String text) {
+        Realm realm = Realm.getDefaultInstance();
+        RealmFavourite realmFavourite = realm.where(RealmFavourite.class)
+                .equalTo("originalText",text)
+                .findFirst();
+        if(realmFavourite!=null){
+            Favourite result = parseFavouriteFromRealmObject(realmFavourite);
+            realm.close();
+            return result;
+        }
+
+        return null;
+    }
+
+    @Override
+    public TranslateResponse getHistory(String text) {
+        try {
+            Realm realm = Realm.getDefaultInstance();
+            RealmTranslateResponse realmResponse = realm.where(RealmTranslateResponse.class)
+                    .equalTo("originalText", text)
+                    .findFirst();
+            if (realmResponse != null) {
+                TranslateResponse result = parseTranslateFromRealmObject(realmResponse);
+                realm.close();
+                return result;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<TranslateResponse> getHistoryList() {
+        Realm realm = Realm.getDefaultInstance();
+        ArrayList<TranslateResponse> historyList = new ArrayList<>();
+        RealmResults<RealmTranslateResponse> realmHistoryList =
+                realm.where(RealmTranslateResponse.class).findAll();
+
+        for (RealmTranslateResponse response : realmHistoryList) {
+
+            historyList.add(parseTranslateFromRealmObject(response));
+        }
+        realm.close();
+        Collections.reverse(historyList);
+        return historyList;
+
+    }
+
+    @Override
+    public boolean clearHistory() {
+        try (Realm realm = Realm.getDefaultInstance()) {
+            realm.executeTransaction(realm1 ->
+                    realm1.where(RealmTranslateResponse.class).findAll().deleteAllFromRealm());
+        } catch (Exception ignored) {
+            ignored.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean removeHistory(String text) {
+        Realm realm = Realm.getDefaultInstance();
+        try {
+            realm.executeTransaction(realm1 -> {
+                RealmTranslateResponse result = realm1
+                        .where(RealmTranslateResponse.class)
+                        .equalTo("originalText", text).findFirst();
+                if (result != null) {
+                    result.deleteFromRealm();
+                }
+            });
+            realm.close();
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            realm.close();
+            return false;
+        }
+    }
+
+    @Override
+    public TranslateResponse getLastRequest() {
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<RealmTranslateResponse> translateList = realm.where(RealmTranslateResponse.class).findAll();
+        if(translateList!=null && translateList.size()!=0) {
+            TranslateResponse result = parseTranslateFromRealmObject(translateList.last());
+            realm.close();
+            return result;
+        }
+
+        return null;
+    }
 
     private TranslateResponse parseTranslateFromRealmObject(RealmTranslateResponse realmResponse) {
 
@@ -221,29 +292,14 @@ public class LanguageRepositoryImpl implements LanguageRepository {
         return response;
     }
 
-    @Override
-    public boolean clearHistory() {
-        try (Realm realm = Realm.getDefaultInstance()) {
-            realm.executeTransaction(realm1 ->
-                    realm1.where(RealmTranslateResponse.class).findAll().deleteAllFromRealm());
-        } catch (Exception ignored) {
-            ignored.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public TranslateResponse getLastRequest() {
-        Realm realm = Realm.getDefaultInstance();
-        RealmResults<RealmTranslateResponse> translateList = realm.where(RealmTranslateResponse.class).findAll();
-        if(translateList!=null && translateList.size()!=0) {
-            TranslateResponse result = parseTranslateFromRealmObject(translateList.last());
-            realm.close();
-            return result;
-        }
-
-        return null;
+    private TranslateResponse parseTranslateFromFavourite(RealmFavourite favourite) {
+        TranslateResponse translateResponse = new TranslateResponse();
+        translateResponse.setId(favourite.getId());
+        translateResponse.setOriginalText(favourite.getOriginalText());
+        translateResponse.setLang(favourite.getLang());
+        translateResponse.setFavourite(favourite.isFavourite());
+        translateResponse.setText(favourite.getText());
+        return translateResponse;
     }
 
     private void addTranslate(RealmTranslateResponse realmTranslateResponse, String originalText) {
@@ -253,7 +309,24 @@ public class LanguageRepositoryImpl implements LanguageRepository {
             realm1.copyToRealmOrUpdate(realmTranslateResponse);
         });
         realm.close();
-
-
     }
+
+//    private void addTranslate(RealmFavourite favourite,Realm realm){
+//        RealmTranslateResponse response = realm.where(RealmTranslateResponse.class)
+//                .equalTo("originalText",favourite.getOriginalText())
+//                .findFirst();
+//        if(response == null) {
+//            realm.executeTransaction(realm1 -> {
+//                RealmTranslateResponse newResponse = realm1.createObject(RealmTranslateResponse.class, UUID.randomUUID().toString());
+//                RealmList<RealmString> stringList = new RealmList<RealmString>();
+//                RealmString string = realm1.createObject(RealmString.class);
+//                string.setString(favourite.getText());
+//                stringList.add(string);
+//                newResponse.setFavourite(favourite.isFavourite());
+//                newResponse.setLang(favourite.getLang());
+//                newResponse.setOriginalText(favourite.getText());
+//                newResponse.setText(stringList);
+//            });
+//        }
+//    }
 }

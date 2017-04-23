@@ -21,7 +21,7 @@ public interface LanguageRepository {
 
     Observable<TranslateResponse> translateText(String text, String lang);
 
-    List<TranslateResponse> getHistory();
+    List<TranslateResponse> getHistoryList();
 
     List<Favourite> getFavourites();
 
@@ -31,5 +31,10 @@ public interface LanguageRepository {
 
     boolean clearHistory();
 
+    boolean removeHistory(String text);
+
     TranslateResponse getLastRequest();
+
+    Favourite getFavourite(String text);
+    TranslateResponse getHistory(String text);
 }

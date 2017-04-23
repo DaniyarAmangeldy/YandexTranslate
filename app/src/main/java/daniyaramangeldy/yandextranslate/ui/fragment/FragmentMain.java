@@ -32,6 +32,7 @@ public class FragmentMain extends MvpAppCompatFragment implements MainView, AHBo
     private FragmentMainBinding binding;
     private BottomNavigationPagerAdapter adapter;
     private ViewPager pager;
+    private AHBottomNavigation navigation;
 
     @InjectPresenter
     MainFragmentPresenter presenter;
@@ -66,7 +67,7 @@ public class FragmentMain extends MvpAppCompatFragment implements MainView, AHBo
     public void initView() {
         res = getResources();
         pager = binding.fragmentMainContainer;
-        AHBottomNavigation navigation = binding.fragmentMainNavigation;
+        navigation = binding.fragmentMainNavigation;
 
         AHBottomNavigationItem itemTranslate = new AHBottomNavigationItem(
                 res.getString(R.string.string_navigation_translate),ContextCompat.getDrawable(getContext(),R.drawable.ic_translate_black_36dp),ContextCompat.getColor(getContext(),R.color.colorPrimary));
@@ -84,13 +85,18 @@ public class FragmentMain extends MvpAppCompatFragment implements MainView, AHBo
         }
         navigation.setColored(true);
 
-        adapter = new BottomNavigationPagerAdapter(getFragmentManager());
+        adapter = new BottomNavigationPagerAdapter(getChildFragmentManager());
         pager.setAdapter(adapter);
     }
 
     @Override
+    public void navigateToTranslateWindow() {
+        navigation.setCurrentItem(0);
+    }
+
+    @Override
     public boolean onTabSelected(int position, boolean wasSelected) {
-        pager.setCurrentItem(position,false);
+        pager.setCurrentItem(position);
         return true;
     }
 }

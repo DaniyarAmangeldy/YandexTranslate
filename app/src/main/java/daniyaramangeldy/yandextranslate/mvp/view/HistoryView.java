@@ -16,4 +16,6 @@ public interface HistoryView extends MvpView {
     void initRecyclerViewOrUpdate(List<TranslateResponse> history);
 
     void showError(String s);
+
+    void navigateToTranslate(String original,String translate,String lang);
 }

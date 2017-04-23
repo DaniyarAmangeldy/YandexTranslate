@@ -6,8 +6,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -27,10 +31,11 @@ import daniyaramangeldy.yandextranslate.mvp.view.HistoryView;
 import daniyaramangeldy.yandextranslate.ui.adapter.HistoryAdapter;
 
 
-public class FragmentHistory extends MvpAppCompatFragment implements HistoryView, FragmentBookmark.historyUpdateListener {
+public class FragmentHistory extends MvpAppCompatFragment implements HistoryView, FragmentBookmark.historyUpdateListener, HistoryAdapter.onClickListener {
 
     private FragmentHistoryBinding binding;
     private HistoryAdapter adapter;
+    private FragmentBookmark parentFragment;
 
     @InjectPresenter
     HistoryPresenter presenter;
@@ -51,7 +56,7 @@ public class FragmentHistory extends MvpAppCompatFragment implements HistoryView
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FragmentBookmark parentFragment = ((FragmentBookmark) getParentFragment());
+        parentFragment = ((FragmentBookmark) getParentFragment());
         parentFragment.setOnHistoryUpdateListener(this);
     }
 
@@ -85,12 +90,15 @@ public class FragmentHistory extends MvpAppCompatFragment implements HistoryView
 
     @Override
     public void initRecyclerViewOrUpdate(List<TranslateResponse> history) {
+        if(history.size()==0) parentFragment.hideFabButton();
+        else parentFragment.showFabButton();
         if (adapter == null) {
             binding.bookmarksRv.setLayoutManager(getLayoutManager());
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(binding.bookmarksRv.getContext(),
                     ((LinearLayoutManager)binding.bookmarksRv.getLayoutManager()).getOrientation());
             binding.bookmarksRv.addItemDecoration(dividerItemDecoration);
             adapter = new HistoryAdapter(history);
+            adapter.setOnClickListener(this);
             binding.bookmarksRv.setAdapter(adapter);
         } else {
             adapter.setList(history);
@@ -103,7 +111,30 @@ public class FragmentHistory extends MvpAppCompatFragment implements HistoryView
     }
 
     @Override
+    public void navigateToTranslate(String original, String translate, String lang) {
+        parentFragment.navigateToTranslate(original,translate,true,lang);
+    }
+
+    @Override
     public void onUpdate() {
         presenter.getHistory();
+    }
+
+    @Override
+    public void onClick(String text) {
+        presenter.navigateToTranslate(text);
+    }
+
+    @Override
+    public void onLongClick(View v, String text,int position) {
+        PopupMenu popupMenu = new PopupMenu(v.getContext(),v, Gravity.CENTER_HORIZONTAL);
+        popupMenu.inflate(R.menu.delete_menu);
+        popupMenu.setOnMenuItemClickListener(item -> {
+            boolean deleted = presenter.removeFromHistory(text);
+            if(deleted) adapter.deleteItem(position);
+
+            return false;
+        });
+        popupMenu.show();
     }
 }

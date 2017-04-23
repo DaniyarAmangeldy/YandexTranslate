@@ -15,4 +15,6 @@ public interface FavouriteView extends MvpView {
     void initRecyclerViewOrUpdate(List<Favourite> favourite);
 
     void showError(String s);
+
+    void navigateToTranslate(String original,String translate,String lang);
 }

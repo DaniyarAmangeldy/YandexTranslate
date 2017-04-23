@@ -7,7 +7,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -30,12 +29,21 @@ import daniyaramangeldy.yandextranslate.ui.adapter.TabNavigationPagerAdapter;
 import static android.app.Activity.RESULT_OK;
 
 
-public class FragmentBookmark extends MvpAppCompatFragment implements ViewPager.OnPageChangeListener,BookmarkView {
+public class FragmentBookmark extends MvpAppCompatFragment implements ViewPager.OnPageChangeListener, BookmarkView {
+
+    private static final String EXTRA_FLAG_FAVOURITE = "isFavourite";
+    private static final String EXTRA_TEXT_ORIGINAL = "original";
+    private static final String EXTRA_TEXT_TRANSLATE = "translate";
+    private static final String EXTRA_LANGUAGE = "language";
+
+    private final int REQUEST_NAVIGATE = 3;
+    private final int REQUEST_UPDATE_HISTORY = 2;
 
     private FragmentBookmarkBinding binding;
     private TabNavigationPagerAdapter tabAdapter;
     private String nameArray[];
-    private final int REQUEST_UPDATE_HISTORY = 2;
+    private boolean fabHidden;
+
     private historyUpdateListener historyListener;
     private favouriteUpdateListener favouriteListener;
     private FloatingActionButton fabDelete;
@@ -50,17 +58,18 @@ public class FragmentBookmark extends MvpAppCompatFragment implements ViewPager.
     }
 
     @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    }
 
 
     @Override
     public void onPageSelected(int position) {
         switch (position) {
             case 0:
-                if (!fabDelete.isShown()) fabDelete.show();
+                if (!fabDelete.isShown() && !fabHidden) fabDelete.show();
                 break;
             case 1:
-                if (fabDelete.isShown()) fabDelete.hide();
+                if (fabDelete.isShown() && !fabHidden) fabDelete.hide();
                 break;
         }
     }
@@ -78,9 +87,20 @@ public class FragmentBookmark extends MvpAppCompatFragment implements ViewPager.
 
     @Override
     public void onHistoryCleaned() {
-        if(historyListener!=null){
+        if (historyListener != null) {
             historyListener.onUpdate();
         }
+    }
+
+    @Override
+    public void navigateToTranslate(String original, String translate, boolean favourite, String lang) {
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_TEXT_ORIGINAL, original);
+        intent.putExtra(EXTRA_TEXT_TRANSLATE, translate);
+        intent.putExtra(EXTRA_FLAG_FAVOURITE, favourite);
+        intent.putExtra(EXTRA_LANGUAGE, lang);
+        getTargetFragment().onActivityResult(REQUEST_NAVIGATE, RESULT_OK, intent);
+        ((FragmentMain) getParentFragment()).navigateToTranslateWindow();
     }
 
 
@@ -88,7 +108,7 @@ public class FragmentBookmark extends MvpAppCompatFragment implements ViewPager.
         void onUpdate();
     }
 
-    interface favouriteUpdateListener{
+    interface favouriteUpdateListener {
         void onUpdate();
     }
 
@@ -111,6 +131,17 @@ public class FragmentBookmark extends MvpAppCompatFragment implements ViewPager.
         return fragment;
     }
 
+    public void hideFabButton() {
+        fabHidden = true;
+        if (binding.bookmarksBtnDelete.isShown())
+            binding.bookmarksBtnDelete.hide();
+    }
+
+    public void showFabButton() {
+        fabHidden = false;
+        if (!binding.bookmarksBtnDelete.isShown())
+            binding.bookmarksBtnDelete.show();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -139,7 +170,7 @@ public class FragmentBookmark extends MvpAppCompatFragment implements ViewPager.
     }
 
     @OnClick(R.id.bookmarks_btn_delete)
-    public void deleteHistory(){
+    public void deleteHistory() {
         String message = res.getString(R.string.string_message_delete),
                 ok = res.getString(R.string.string_ok),
                 cancel = res.getString(R.string.string_cancel);
@@ -149,7 +180,7 @@ public class FragmentBookmark extends MvpAppCompatFragment implements ViewPager.
                     presenter.clearHistory();
                     dialog.dismiss();
                 })
-                .setNegativeButton(cancel,((dialogInterface, which) -> dialogInterface.dismiss()))
+                .setNegativeButton(cancel, ((dialogInterface, which) -> dialogInterface.dismiss()))
                 .show();
     }
 
