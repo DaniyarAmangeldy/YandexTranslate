@@ -3,7 +3,8 @@ package daniyaramangeldy.yandextranslate.interactor;
 import java.util.List;
 
 
-import daniyaramangeldy.yandextranslate.mvp.model.LanguageRepository;
+import daniyaramangeldy.yandextranslate.mvp.model.entity.Favourite;
+import daniyaramangeldy.yandextranslate.repository.LanguageRepository;
 import daniyaramangeldy.yandextranslate.mvp.model.entity.TranslateResponse;
 
 /**
@@ -12,7 +13,7 @@ import daniyaramangeldy.yandextranslate.mvp.model.entity.TranslateResponse;
 
 public class BookmarksInteractorImpl implements BookmarksInteractor {
 
-    LanguageRepository repository;
+    private LanguageRepository repository;
 
     public BookmarksInteractorImpl(LanguageRepository repository){
         this.repository = repository;
@@ -21,5 +22,32 @@ public class BookmarksInteractorImpl implements BookmarksInteractor {
     @Override
     public List<TranslateResponse> getHistory() {
         return repository.getHistory();
+    }
+
+    @Override
+    public boolean clearHistory() {
+        return repository.clearHistory();
+    }
+
+
+
+    @Override
+    public boolean addFavourite(TranslateResponse response) {
+        return repository.addFavourite(response);
+    }
+
+    @Override
+    public boolean removeFavourite(String name) {
+        return repository.removeFavourite(name);
+    }
+
+    @Override
+    public List<Favourite> getFavourites() {
+        return repository.getFavourites();
+    }
+
+    @Override
+    public TranslateResponse getLastRequest() {
+        return repository.getLastRequest();
     }
 }

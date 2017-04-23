@@ -6,7 +6,7 @@ import dagger.Module;
 import dagger.Provides;
 import daniyaramangeldy.yandextranslate.interactor.BookmarksInteractor;
 import daniyaramangeldy.yandextranslate.interactor.BookmarksInteractorImpl;
-import daniyaramangeldy.yandextranslate.mvp.model.LanguageRepository;
+import daniyaramangeldy.yandextranslate.repository.LanguageRepository;
 
 /**
  * Created by daniyaramangeldy on 22.04.17.

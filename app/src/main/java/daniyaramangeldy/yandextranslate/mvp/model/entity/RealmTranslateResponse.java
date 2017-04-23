@@ -17,6 +17,7 @@ public class RealmTranslateResponse extends RealmObject {
     @PrimaryKey
     private String id = UUID.randomUUID().toString();
     private RealmList<RealmString> text;
+    private String originalText;
     private String lang;
     private boolean favourite;
 
@@ -46,6 +47,18 @@ public class RealmTranslateResponse extends RealmObject {
 
     public boolean isFavourite() {
         return favourite;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getOriginalText() {
+        return originalText;
+    }
+
+    public void setOriginalText(String originalText) {
+        this.originalText = originalText;
     }
 
     public void setFavourite(boolean favourite) {

@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 
@@ -31,10 +33,13 @@ public class FragmentMain extends MvpAppCompatFragment implements MainView, AHBo
     private BottomNavigationPagerAdapter adapter;
     private ViewPager pager;
 
+    @InjectPresenter
+    MainFragmentPresenter presenter;
     public FragmentMain() {
         // Required empty public constructor
     }
 
+    @ProvidePresenter
     MainFragmentPresenter providePresenter(){
         return new MainFragmentPresenter();
     }

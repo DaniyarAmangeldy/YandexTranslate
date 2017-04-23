@@ -69,7 +69,6 @@
                 android:gravity="top|start"
                 android:hint="@string/string.hint.input"
                 android:inputType="textMultiLine"
-                android:imeOptions="actionSend"
                 android:maxLines="5"
                 android:scrollHorizontally="false"
                 tools:text="Привет" />

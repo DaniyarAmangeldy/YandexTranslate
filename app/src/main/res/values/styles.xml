@@ -17,6 +17,12 @@
     <style name="textInputStyle" parent="Base.TextAppearance.AppCompat">
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="tabLayoutStyle" parent="Base.Widget.Design.TabLayout">
+        <item name="tabBackground">@color/colorPrimary</item>
+        <item name="tabSelectedTextColor">@color/white</item>
+        <item name="tabIndicatorColor">@color/white</item>
 
     </style>
 

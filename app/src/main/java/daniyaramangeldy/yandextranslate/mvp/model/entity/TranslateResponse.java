@@ -1,6 +1,5 @@
 package daniyaramangeldy.yandextranslate.mvp.model.entity;
 
-import java.util.ArrayList;
 
 /**
  * Created by daniyaramangeldy on 22.04.17.
@@ -8,7 +7,8 @@ import java.util.ArrayList;
 
 public class TranslateResponse {
     private String id;
-    private ArrayList<String> text;
+    private String text;
+    private String originalText;
     private String lang;
     private boolean favourite;
 
@@ -20,11 +20,11 @@ public class TranslateResponse {
         this.id = id;
     }
 
-    public ArrayList<String> getText() {
+    public String getText() {
         return text;
     }
 
-    public void setText(ArrayList<String> text) {
+    public void setText(String text) {
         this.text = text;
     }
 
@@ -38,6 +38,14 @@ public class TranslateResponse {
 
     public boolean isFavourite() {
         return favourite;
+    }
+
+    public String getOriginalText() {
+        return originalText;
+    }
+
+    public void setOriginalText(String originalText) {
+        this.originalText = originalText;
     }
 
     public void setFavourite(boolean favourite) {

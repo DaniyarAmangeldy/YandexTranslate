@@ -1,5 +1,4 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
@@ -13,7 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
-            android:elevation="2dp">
+            >
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -24,6 +23,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:background="?selectableItemBackgroundBorderless"
                     android:src="@drawable/ic_swap_36dp" />
 
                 <TextView
@@ -53,24 +53,23 @@
         <RelativeLayout
             android:id="@+id/fragment_translate_layout_whiteboard"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="150dp"
             android:layout_below="@id/fragment_translate_toolbar"
             android:layout_margin="8dp"
             android:background="@drawable/drawable_background_textfield">
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/fragment_translate_input"
+                style="@style/textInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/textInputStyle"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_toStartOf="@+id/fragment_translate_input_btn_mic"
                 android:background="@android:color/transparent"
-                android:maxLines="6"
                 android:gravity="top|start"
-                android:inputType="textMultiLine"
                 android:hint="@string/string.hint.input"
+                android:inputType="textMultiLine"
+                android:maxLines="5"
                 android:scrollHorizontally="false"
                 tools:text="Привет" />
 
@@ -80,8 +79,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
-                android:padding="8dp"
+                android:background="?selectableItemBackgroundBorderless"
                 android:src="@drawable/ic_close_36dp" />
+
 
         </RelativeLayout>
 
@@ -89,7 +89,7 @@
             android:id="@+id/fragment_translate_output"
             style="@style/textInputStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_below="@id/fragment_translate_layout_whiteboard"
             android:layout_margin="8dp"
             android:layout_toStartOf="@+id/fragment_translate_output_btn_bookmark"
@@ -97,13 +97,15 @@
             android:scrollbars="vertical"
             tools:text="Hi" />
 
-        <ImageView
+
+        <CheckBox
             android:id="@+id/fragment_translate_output_btn_bookmark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/fragment_translate_output"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/ic_favourite_unselected_36dp" />
+            android:background="?selectableItemBackgroundBorderless"
+            android:button="@drawable/ic_favourite" />
 
 
     </RelativeLayout>

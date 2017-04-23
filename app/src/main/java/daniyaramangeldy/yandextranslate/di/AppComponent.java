@@ -8,8 +8,9 @@ import dagger.Component;
 import daniyaramangeldy.yandextranslate.di.modules.AppModule;
 import daniyaramangeldy.yandextranslate.di.modules.BookmarksInteractorModule;
 import daniyaramangeldy.yandextranslate.di.modules.TranslateInteractorModule;
-import daniyaramangeldy.yandextranslate.interactor.TranslateInteractor;
-import daniyaramangeldy.yandextranslate.mvp.presenter.BookmarksPresenter;
+import daniyaramangeldy.yandextranslate.mvp.presenter.BookmarkPresenter;
+import daniyaramangeldy.yandextranslate.mvp.presenter.FavouritePresenter;
+import daniyaramangeldy.yandextranslate.mvp.presenter.HistoryPresenter;
 import daniyaramangeldy.yandextranslate.mvp.presenter.MainFragmentPresenter;
 import daniyaramangeldy.yandextranslate.mvp.presenter.TranslatePresenter;
 import daniyaramangeldy.yandextranslate.ui.fragment.FragmentBookmark;
@@ -27,6 +28,8 @@ public interface AppComponent {
     void inject(MainFragmentPresenter presenter);
     void inject(TranslatePresenter presenter);
     void inject(FragmentBookmark fragment);
-    void inject(BookmarksPresenter presenter);
+    void inject(HistoryPresenter presenter);
+    void inject(FavouritePresenter presenter);
+    void inject(BookmarkPresenter presenter);
 
 }

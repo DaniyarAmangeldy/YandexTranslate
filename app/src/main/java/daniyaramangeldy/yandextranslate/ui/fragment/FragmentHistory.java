@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -21,27 +22,26 @@ import butterknife.ButterKnife;
 import daniyaramangeldy.yandextranslate.R;
 import daniyaramangeldy.yandextranslate.databinding.FragmentHistoryBinding;
 import daniyaramangeldy.yandextranslate.mvp.model.entity.TranslateResponse;
-import daniyaramangeldy.yandextranslate.mvp.presenter.BookmarksPresenter;
-import daniyaramangeldy.yandextranslate.mvp.view.BookmarkView;
-import daniyaramangeldy.yandextranslate.ui.adapter.BookmarkAdapter;
+import daniyaramangeldy.yandextranslate.mvp.presenter.HistoryPresenter;
+import daniyaramangeldy.yandextranslate.mvp.view.HistoryView;
+import daniyaramangeldy.yandextranslate.ui.adapter.HistoryAdapter;
 
 
-
-public class FragmentHistory extends MvpAppCompatFragment implements BookmarkView, FragmentBookmark.historyUpdateListener {
+public class FragmentHistory extends MvpAppCompatFragment implements HistoryView, FragmentBookmark.historyUpdateListener {
 
     private FragmentHistoryBinding binding;
-    private BookmarkAdapter adapter;
+    private HistoryAdapter adapter;
 
     @InjectPresenter
-    BookmarksPresenter presenter;
+    HistoryPresenter presenter;
 
     public FragmentHistory() {
         // Required empty public constructor
     }
 
     @ProvidePresenter
-    public BookmarksPresenter providePresenter() {
-        return new BookmarksPresenter();
+    public HistoryPresenter providePresenter() {
+        return new HistoryPresenter();
     }
 
     public static FragmentHistory newInstance() {
@@ -90,11 +90,16 @@ public class FragmentHistory extends MvpAppCompatFragment implements BookmarkVie
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(binding.bookmarksRv.getContext(),
                     ((LinearLayoutManager)binding.bookmarksRv.getLayoutManager()).getOrientation());
             binding.bookmarksRv.addItemDecoration(dividerItemDecoration);
-            adapter = new BookmarkAdapter(history);
+            adapter = new HistoryAdapter(history);
             binding.bookmarksRv.setAdapter(adapter);
         } else {
             adapter.setList(history);
         }
+    }
+
+    @Override
+    public void showError(String s) {
+        Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
     }
 
     @Override

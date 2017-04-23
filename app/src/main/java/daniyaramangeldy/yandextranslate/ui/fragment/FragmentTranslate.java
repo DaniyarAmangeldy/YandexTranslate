@@ -11,43 +11,43 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 
-import org.w3c.dom.Text;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import daniyaramangeldy.yandextranslate.R;
 import daniyaramangeldy.yandextranslate.databinding.FragmentTranslateBinding;
 import daniyaramangeldy.yandextranslate.mvp.presenter.TranslatePresenter;
 import daniyaramangeldy.yandextranslate.mvp.view.TranslateView;
-import daniyaramangeldy.yandextranslate.utils.Utils;
 
 
 public class FragmentTranslate extends MvpAppCompatFragment implements TranslateView, TextWatcher {
     private final String EMPTY_MESSAGE = "";
     private final int REQUEST_UPDATE_HISTORY = 2;
 
+    private boolean favouriteListenerOn = true;
+
     @InjectPresenter
     TranslatePresenter presenter;
+
     Resources res;
     private FragmentTranslateBinding binding;
     private Timer timer;
     private String lastWord;
     private InputMethodManager imm;
+
     public FragmentTranslate() {
         // Required empty public constructor
     }
@@ -66,7 +66,7 @@ public class FragmentTranslate extends MvpAppCompatFragment implements Translate
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(savedInstanceState!=null){
+        if (savedInstanceState != null) {
             lastWord = savedInstanceState.getString("input");
         }
     }
@@ -75,9 +75,9 @@ public class FragmentTranslate extends MvpAppCompatFragment implements Translate
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_translate, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_translate, container, false);
         View view = binding.getRoot();
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
         return view;
     }
 
@@ -88,40 +88,58 @@ public class FragmentTranslate extends MvpAppCompatFragment implements Translate
     }
 
     private void initView() {
+        presenter.initCurrentLanguage();
+        presenter.initLastTranslate();
         imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         res = getResources();
         binding.fragmentTranslateOutput.setMovementMethod(new ScrollingMovementMethod());
-        binding.fragmentTranslateLang1.setText(res.getString(R.string.string_lang_russian));
-        binding.fragmentTranslateLang2.setText(res.getString(R.string.string_lang_english));
-        if(lastWord!=null) binding.fragmentTranslateInput.setText(lastWord);
+        if (lastWord != null) binding.fragmentTranslateInput.setText(lastWord);
         binding.fragmentTranslateInput.addTextChangedListener(this);
+
     }
 
-
-
-    @OnClick(R.id.fragment_translate_output_btn_bookmark)
-    public void addBookmarkClick(){
-        presenter.addBookmark();
-    }
 
     @OnClick(R.id.fragment_translate_btn_clear)
-    public void clearInputClick(){
+    public void clearInputClick() {
         binding.fragmentTranslateInput.setText(EMPTY_MESSAGE);
         binding.fragmentTranslateOutput.setText(EMPTY_MESSAGE);
         focusInput();
     }
 
 
-
     @OnClick(R.id.fragment_translate_swap)
-    public void swapLanguageClick(){
+    public void swapLanguageClick() {
         presenter.swapLanguage();
     }
 
     @OnClick(R.id.fragment_translate_layout_whiteboard)
-    public void whiteboardClick(){
+    public void whiteboardClick() {
         focusInput();
     }
+
+    @OnCheckedChanged(R.id.fragment_translate_output_btn_bookmark)
+    public void FavouriteCheck(boolean isChecked) {
+        if(favouriteListenerOn) {
+            if (!isChecked) {
+                presenter.removeFavourite();
+            } else {
+                presenter.addFavourite();
+            }
+        }
+    }
+
+    @Override
+    public void checkFavourite(boolean check){
+        favouriteListenerOn = false;
+        binding.fragmentTranslateOutputBtnBookmark.setChecked(check);
+        favouriteListenerOn = true;
+    }
+
+    @Override
+    public void setLastResult(String result) {
+        binding.fragmentTranslateInput.setText(result);
+    }
+
 
     private void focusInput() {
 
@@ -133,18 +151,16 @@ public class FragmentTranslate extends MvpAppCompatFragment implements Translate
         String temp = binding.fragmentTranslateLang1.getText().toString();
         binding.fragmentTranslateLang1.setText(binding.fragmentTranslateLang2.getText().toString());
         binding.fragmentTranslateLang2.setText(temp);
-        if(!TextUtils.isEmpty(binding.fragmentTranslateInput.getText().toString())){
+        if (!TextUtils.isEmpty(binding.fragmentTranslateInput.getText().toString())) {
             binding.fragmentTranslateInput.setText(binding.fragmentTranslateOutput.getText().toString());
             int position = binding.fragmentTranslateInput.length();
             binding.fragmentTranslateInput.setSelection(position);
-
         }
     }
 
     @Override
     public void showTranslateText(String text) {
         binding.fragmentTranslateOutput.setText(text);
-
     }
 
     @Override
@@ -154,7 +170,13 @@ public class FragmentTranslate extends MvpAppCompatFragment implements Translate
 
     @Override
     public void eventBookmark() {
-        getTargetFragment().onActivityResult(REQUEST_UPDATE_HISTORY, Activity.RESULT_OK,null);
+        getTargetFragment().onActivityResult(REQUEST_UPDATE_HISTORY, Activity.RESULT_OK, null);
+    }
+
+    @Override
+    public void setCurrentLanguage(String from, String to) {
+        binding.fragmentTranslateLang1.setText(from);
+        binding.fragmentTranslateLang2.setText(to);
     }
 
     @Override
@@ -169,18 +191,19 @@ public class FragmentTranslate extends MvpAppCompatFragment implements Translate
 
     @Override
     public void afterTextChanged(Editable s) {
-        if(timer!=null){
+        if (timer != null) {
             timer.purge();
             timer.cancel();
         }
         timer = new Timer();
-        timer.schedule(new TranslateTask(s.toString()),1000);
+        timer.schedule(new TranslateTask(s.toString()), 1000);
+
     }
 
     private class TranslateTask extends TimerTask {
         String text;
 
-        public TranslateTask(String text){
+        public TranslateTask(String text) {
             this.text = text;
         }
 
@@ -192,8 +215,8 @@ public class FragmentTranslate extends MvpAppCompatFragment implements Translate
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        if(!TextUtils.isEmpty(binding.fragmentTranslateInput.getText().toString())){
-            outState.putString("input",binding.fragmentTranslateInput.getText().toString());
+        if (!TextUtils.isEmpty(binding.fragmentTranslateInput.getText().toString())) {
+            outState.putString("input", binding.fragmentTranslateInput.getText().toString());
         }
         super.onSaveInstanceState(outState);
     }

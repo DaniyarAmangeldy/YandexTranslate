@@ -1,6 +1,7 @@
 package daniyaramangeldy.yandextranslate.mvp.presenter;
 
 
+import android.content.res.Resources;
 import android.text.TextUtils;
 
 import com.arellomobile.mvp.InjectViewState;
@@ -9,14 +10,14 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import javax.inject.Inject;
 
+import daniyaramangeldy.yandextranslate.R;
 import daniyaramangeldy.yandextranslate.application.MyApplication;
+import daniyaramangeldy.yandextranslate.interactor.BookmarksInteractor;
 import daniyaramangeldy.yandextranslate.interactor.TranslateInteractor;
-import daniyaramangeldy.yandextranslate.mvp.model.entity.RealmTranslateResponse;
+import daniyaramangeldy.yandextranslate.mvp.model.entity.TranslateResponse;
 import daniyaramangeldy.yandextranslate.mvp.view.TranslateView;
 import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by daniyaramangeldy on 21.04.17.
@@ -24,42 +25,82 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class TranslatePresenter extends MvpPresenter<TranslateView> {
 
+    private static final String TAG = "TranslatePresenter";
+    private TranslateResponse lastResponse;
+
+
+
     @Inject
-    TranslateInteractor interactor;
+    TranslateInteractor translateInteractor;
 
-    public TranslatePresenter(){
+    @Inject
+    BookmarksInteractor bookmarksInteractor;
+
+    @Inject
+    Resources res;
+
+    public TranslatePresenter() {
         MyApplication.component().inject(this);
-     }
-
-    public void addBookmark(){
     }
 
-    public void swapLanguage(){
+    public void addFavourite() {
+        boolean result = bookmarksInteractor.addFavourite(lastResponse);
+        if(result){
+            getViewState().eventBookmark();
+
+        } else {
+            getViewState().showError(res.getString(R.string.string_error_add_favourite));
+            getViewState().checkFavourite(false);
+
+        }
+    }
+
+    public void removeFavourite(){
+        boolean result = bookmarksInteractor.removeFavourite(lastResponse.getOriginalText());
+        if(result) {
+            getViewState().eventBookmark();
+        } else {
+            getViewState().showError(res.getString(R.string.string_error_remove_favourite));
+            getViewState().checkFavourite(true);
+        }
+    }
+
+    public void swapLanguage() {
+        translateInteractor.swapLanguage();
         getViewState().swapLanguage();
     }
 
-    public void translateText(String text){
-        if(!TextUtils.isEmpty(text)){
-            interactor.translateText(text)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
+    public void translateText(String text) {
+        if (!TextUtils.isEmpty(text)) {
+            translateInteractor.translateText(text.trim())
                     .subscribe(new resultObserver());
         }
-
     }
 
-    private class resultObserver implements Observer<RealmTranslateResponse> {
+    public void initCurrentLanguage() {
+        String[] langs = translateInteractor.getCurrentLanguage();
+        getViewState().setCurrentLanguage(langs[0], langs[1]);
+    }
+
+    public void initLastTranslate(){
+        TranslateResponse response = bookmarksInteractor.getLastRequest();
+        if(response!=null) getViewState().setLastResult(response.getOriginalText());
+    }
+
+
+    private class resultObserver implements Observer<TranslateResponse> {
 
         @Override
         public void onSubscribe(Disposable d) {
-
         }
 
         @Override
-        public void onNext(RealmTranslateResponse value) {
+        public void onNext(TranslateResponse value) {
+            lastResponse = value;
+            getViewState().checkFavourite(value.isFavourite());
             getViewState().eventBookmark();
             getViewState()
-                    .showTranslateText(value.getText().get(0).getString());
+                    .showTranslateText(value.getText());
         }
 
         @Override
@@ -70,13 +111,7 @@ public class TranslatePresenter extends MvpPresenter<TranslateView> {
 
         @Override
         public void onComplete() {
-
         }
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-    }
 }

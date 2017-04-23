@@ -9,9 +9,8 @@ import dagger.Module;
 import dagger.Provides;
 import daniyaramangeldy.yandextranslate.R;
 import daniyaramangeldy.yandextranslate.api.YandexTranslateApi;
-import daniyaramangeldy.yandextranslate.mvp.model.LanguageRepository;
-import daniyaramangeldy.yandextranslate.mvp.model.LanguageRepositoryImpl;
-import io.realm.Realm;
+import daniyaramangeldy.yandextranslate.repository.LanguageRepository;
+import daniyaramangeldy.yandextranslate.repository.LanguageRepositoryImpl;
 
 /**
  * Created by daniyaramangeldy on 21.04.17.

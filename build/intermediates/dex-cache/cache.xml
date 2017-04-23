@@ -3,48 +3,12 @@
 
     <item
         is-multidex="true"
-        jar="/Users/daniyaramangeldy/.android/build-cache/8f3f753d1f9a482dd5bfb73bdeacc8ef785dba1d/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="b64dd5f01bc37de289f90fd59299b0c76d119611">
-        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/dev/debug/folders/1000/10/classes_062e449315a7e51518c147a855824f21b3e4b96f/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/incremental-classes/dev/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="5daea6922fa6581ad4becc8cfe7bd25eb00df93a">
+        sha1="62d23c95299b885cb6f02e12ca1c947998e5af7b">
         <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/dev/debug/folders/1000/10000/instant-run-bootstrap_ff0255e0c4411d2584fca15d525e4a8f0479090a/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/daniyaramangeldy/.android/build-cache/903123bc9eb42f2b88f316b0e28661958dec48d7/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="bd255815270a5d4083c4cf41bde3d5b475493264">
-        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/dev/debug/folders/1000/10/classes_596b9605f6f0e9f372b519945e3c8b0606f4e319/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/daniyaramangeldy/.gradle/caches/modules-2/files-2.1/io.realm/realm-annotations/3.1.3/b4ecd87169faeee5abfb6c4793713cc1a14b1c25/realm-annotations-3.1.3.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="b4ecd87169faeee5abfb6c4793713cc1a14b1c25">
-        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/dev/debug/folders/1000/10/realm-annotations-3.1.3_32399f210b92b639aa888939b4c6f4e5e3d22695/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/daniyaramangeldy/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit2/adapter-rxjava2/2.2.0/3ee0e527143abbe130ddba4c1fa6c4be5d66ed5c/adapter-rxjava2-2.2.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="3ee0e527143abbe130ddba4c1fa6c4be5d66ed5c">
-        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/dev/debug/folders/1000/10/adapter-rxjava2-2.2.0_2f5f73b8e336a1eb1fcff74224ea6cebbbbe4539/classes.dex" />
     </item>
     <item
         is-multidex="true"
