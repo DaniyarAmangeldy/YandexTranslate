@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">YandexTranslate</string>
+    <string name="string.cancel">cancel</string>
+    <string name="string.error.add.favourite">Failed to add to favorites</string>
+    <string name="string.error.clear.history">Could not clear history</string>
+    <string name="string.error.load.languages">Failed to load the list of languages</string>
+    <string name="string.error.remove.favourite">Failed to delete from favorites</string>
+    <string name="string.hint.input">Write the text ...</string>
+    <string name="string.label.link">Translated by the service \"Yandex.Translator\"</string>
+    <string name="string.lang.english">English</string>
+    <string name="string.lang.russian">Russian</string>
+    <string name="string.lang.short.english"></string>
+    <string name="string.menu.delete">Delete</string>
+    <string name="string.message.delete">Delete all records?</string>
+    <string name="string.navigation.tab">Tabs</string>
+    <string name="string.navigation.translate">Translate</string>
+    <string name="string.ok">ok</string>
+    <string name="string.placeholder.favourites">You do not have any favorites ¯\\_(ツ)_/¯</string>
+    <string name="string.placeholder.history">You do not have any entries in the history ¯\\_(ツ)_/¯</string>
+    <string name="string.search.favourite">Find in favorites</string>
+    <string name="string.search.history">Find in history</string>
+    <string name="string.tab.favourite">Favorites</string>
+    <string name="string.tab.history">History</string>
+    <string name="string.toolbar.language">Choose language</string>
+</resources>

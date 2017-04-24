@@ -1,0 +1,46 @@
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="daniyaramangeldy.yandextranslate.ui.fragment.FragmentChooseLanguage">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/choose_language_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:elevation="2dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/choose_language_back_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/ic_back"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            style="@style/languageTextStyle"
+            android:textSize="18sp"
+            android:layout_marginStart="8dp"
+            android:textColor="@color/white"
+            android:text="@string/string.toolbar.language"
+            android:layout_toEndOf="@id/choose_language_back_button"
+            />
+        </RelativeLayout>
+        </android.support.v7.widget.Toolbar>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/choose_language_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/choose_language_toolbar"/>
+
+
+</RelativeLayout>
+</layout>

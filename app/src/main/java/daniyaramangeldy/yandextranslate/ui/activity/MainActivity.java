@@ -1,11 +1,8 @@
 package daniyaramangeldy.yandextranslate.ui.activity;
 
-import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 
 import daniyaramangeldy.yandextranslate.R;
-import daniyaramangeldy.yandextranslate.ui.BaseActivity;
 import daniyaramangeldy.yandextranslate.ui.fragment.FragmentMain;
 
 public class MainActivity extends BaseActivity {

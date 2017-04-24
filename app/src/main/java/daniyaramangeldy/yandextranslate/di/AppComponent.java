@@ -9,6 +9,7 @@ import daniyaramangeldy.yandextranslate.di.modules.AppModule;
 import daniyaramangeldy.yandextranslate.di.modules.BookmarksInteractorModule;
 import daniyaramangeldy.yandextranslate.di.modules.TranslateInteractorModule;
 import daniyaramangeldy.yandextranslate.mvp.presenter.BookmarkPresenter;
+import daniyaramangeldy.yandextranslate.mvp.presenter.ChooseLanguagePresenter;
 import daniyaramangeldy.yandextranslate.mvp.presenter.FavouritePresenter;
 import daniyaramangeldy.yandextranslate.mvp.presenter.HistoryPresenter;
 import daniyaramangeldy.yandextranslate.mvp.presenter.MainFragmentPresenter;
@@ -31,5 +32,6 @@ public interface AppComponent {
     void inject(HistoryPresenter presenter);
     void inject(FavouritePresenter presenter);
     void inject(BookmarkPresenter presenter);
+    void inject(ChooseLanguagePresenter presenter);
 
 }

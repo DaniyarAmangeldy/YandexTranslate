@@ -4,7 +4,7 @@ import java.util.List;
 
 import daniyaramangeldy.yandextranslate.mvp.model.entity.Favourite;
 import daniyaramangeldy.yandextranslate.mvp.model.entity.Language;
-import daniyaramangeldy.yandextranslate.mvp.model.entity.RealmTranslateResponse;
+import daniyaramangeldy.yandextranslate.mvp.model.entity.LanguageMap;
 import daniyaramangeldy.yandextranslate.mvp.model.entity.TranslateResponse;
 import io.reactivex.Observable;
 
@@ -15,7 +15,7 @@ import io.reactivex.Observable;
 
 public interface LanguageRepository {
 
-    Observable<List<Language>> getLanguages();
+    Observable<LanguageMap> loadLanguages();
 
     TranslateResponse findTranslateInCache(String text, String lang);
 
@@ -37,4 +37,7 @@ public interface LanguageRepository {
 
     Favourite getFavourite(String text);
     TranslateResponse getHistory(String text);
+
+    List<Language> getLanguageList();
+    String getLangByKey(String key);
 }

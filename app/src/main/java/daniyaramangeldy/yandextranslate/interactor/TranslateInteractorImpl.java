@@ -4,9 +4,12 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 
 
+import java.util.List;
+
 import javax.inject.Inject;
 
-import daniyaramangeldy.yandextranslate.R;
+import daniyaramangeldy.yandextranslate.mvp.model.entity.Language;
+import daniyaramangeldy.yandextranslate.mvp.model.entity.LanguageMap;
 import daniyaramangeldy.yandextranslate.mvp.model.entity.TranslateResponse;
 import daniyaramangeldy.yandextranslate.repository.LanguageRepository;
 import io.reactivex.Observable;
@@ -38,23 +41,20 @@ public class TranslateInteractorImpl implements TranslateInteractor {
     public String[] getCurrentLanguage() {
         String[] result = getLanguageFromSharedPreferences().split("-");
         return new String[]{
-                getLangByUi(result[0]),
-                getLangByUi(result[1])
+                getLangByKey(result[0]),
+                getLangByKey(result[1])
         };
 
     }
 
-    private String getLangByUi(String s) {
-        String result = "";
-        switch (s) {
-            case "ru":
-                result = res.getString(R.string.string_lang_russian);
-                break;
-            case "en":
-                result = res.getString(R.string.string_lang_english);
-                break;
-        }
-        return result;
+
+    public String[] getCurrentLanguageKey(){
+        return getLanguageFromSharedPreferences().split("-");
+
+    }
+
+    private String getLangByKey(String s) {
+        return langRepository.getLangByKey(s);
     }
 
     private String getLanguageFromSharedPreferences() {
@@ -75,6 +75,16 @@ public class TranslateInteractorImpl implements TranslateInteractor {
                 .putString(KEY_LANG,lang)
                 .apply();
         return true;
+    }
+
+    @Override
+    public Observable<LanguageMap> loadLanguages() {
+        return langRepository.loadLanguages();
+    }
+
+    @Override
+    public List<Language> getLanguageList() {
+        return langRepository.getLanguageList();
     }
 
 

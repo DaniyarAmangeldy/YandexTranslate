@@ -12,10 +12,11 @@
     <string name="string.navigation.tab">Вкладки</string>
 
     <!--Языки -->
+    <string name="string.toolbar.language">Выберите язык</string>
     <string name="string.lang.russian">Русский</string>
     <string name="string.lang.english">Английский</string>
-    <string name="string.lang.short.russian">RU</string>
-    <string name="string.lang.short.english">EN</string>
+    <string name="string.lang.short.russian" translatable="false">RU</string>
+    <string name="string.lang.short.english" translatable="false">EN</string>
 
     <!-- Табы -->
     <string name="string.tab.history">История</string>
@@ -27,6 +28,7 @@
     <string name="string.error.clear.history">Не удалось очистить историю</string>
     <string name="string.error.add.favourite">Не удалось добавить в избранное</string>
     <string name="string.error.remove.favourite">Не удалось удалить с избранного</string>
+    <string name="string.error.load.languages">Не удалось загрузить список языков</string>
 
     <!-- PlaceHolder -->
 
@@ -39,6 +41,8 @@
 
     <!-- popup menu -->
     <string name="string.menu.delete">Удалить</string>
+
+
 
 
 </resources>

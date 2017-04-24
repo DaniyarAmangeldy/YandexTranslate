@@ -33,6 +33,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="16dp"
+                    android:background="?android:selectableItemBackground"
                     android:layout_toStartOf="@id/fragment_translate_swap"
                     tools:text="@string/string.lang.russian" />
 
@@ -43,6 +44,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="16dp"
+                    android:background="?android:selectableItemBackground"
                     android:layout_toEndOf="@id/fragment_translate_swap"
                     tools:text="@string/string.lang.english" />
 

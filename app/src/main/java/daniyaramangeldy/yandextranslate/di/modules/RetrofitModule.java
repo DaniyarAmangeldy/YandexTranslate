@@ -9,7 +9,9 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import daniyaramangeldy.yandextranslate.mvp.model.entity.LanguageMap;
 import daniyaramangeldy.yandextranslate.mvp.model.entity.RealmTranslateResponse;
+import daniyaramangeldy.yandextranslate.mvp.model.mapper.LanguageMapper;
 import daniyaramangeldy.yandextranslate.mvp.model.mapper.TranslateMapper;
 import okhttp3.OkHttpClient;
 import retrofit2.Converter;
@@ -47,6 +49,7 @@ public class RetrofitModule {
         return new GsonBuilder()
                 .excludeFieldsWithoutExposeAnnotation()
                 .registerTypeAdapter(RealmTranslateResponse.class, new TranslateMapper())
+                .registerTypeAdapter(LanguageMap.class, new LanguageMapper())
                 .create();
     }
 

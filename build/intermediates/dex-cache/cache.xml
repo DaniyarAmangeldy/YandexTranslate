@@ -3,11 +3,20 @@
 
     <item
         is-multidex="true"
+        jar="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="510aa6efc159983dfbffa676a0dae37568c0a46f">
+        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_476907f7c8878a74d916af43757ae7078cdb3ae8/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/incremental-classes/dev/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="62d23c95299b885cb6f02e12ca1c947998e5af7b">
+        sha1="0c1590adb2fdd4f2af0a7e85ac9344432897f11a">
         <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/dev/debug/folders/1000/10000/instant-run-bootstrap_ff0255e0c4411d2584fca15d525e4a8f0479090a/classes.dex" />
     </item>
     <item
@@ -18,6 +27,15 @@
         revision="25.0.2"
         sha1="510aa6efc159983dfbffa676a0dae37568c0a46f">
         <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/dev/debug/folders/1000/10000/instant-run_c3793aecba7bd4368252ebbbcef2c4348437fb48/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="9a6bf5af0d3a3b5af1e7bd3c62041f4ec71c96d2">
+        <dex dex="/Users/daniyaramangeldy/AndroidStudioProjects/YandexTranslate/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_2674f8d64fdce9a96c66639d5b4cb376400da97b/classes.dex" />
     </item>
 
 </items>

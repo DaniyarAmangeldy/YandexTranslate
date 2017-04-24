@@ -14,6 +14,7 @@ import daniyaramangeldy.yandextranslate.R;
 import daniyaramangeldy.yandextranslate.application.MyApplication;
 import daniyaramangeldy.yandextranslate.interactor.BookmarksInteractor;
 import daniyaramangeldy.yandextranslate.interactor.TranslateInteractor;
+import daniyaramangeldy.yandextranslate.mvp.model.entity.LanguageMap;
 import daniyaramangeldy.yandextranslate.mvp.model.entity.TranslateResponse;
 import daniyaramangeldy.yandextranslate.mvp.view.TranslateView;
 import io.reactivex.Observer;
@@ -91,6 +92,40 @@ public class TranslatePresenter extends MvpPresenter<TranslateView> {
     public void setCurrentLanguage(String lang){
         boolean result = translateInteractor.setLanguage(lang);
         if(result) initCurrentLanguage();
+    }
+
+    public void loadLanguages(){
+        translateInteractor.loadLanguages().subscribe(new languageObserver());
+
+    }
+
+    public String getCurrentLanguage(int num){
+        String[] langs = translateInteractor.getCurrentLanguageKey();
+        return langs[num];
+    }
+
+    private class languageObserver implements Observer<LanguageMap>{
+
+        @Override
+        public void onSubscribe(Disposable d) {
+
+        }
+
+        @Override
+        public void onNext(LanguageMap value) {
+            initCurrentLanguage();
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            e.printStackTrace();
+            getViewState().showError(res.getString(R.string.string_error_load_languages));
+        }
+
+        @Override
+        public void onComplete() {
+
+        }
     }
 
 

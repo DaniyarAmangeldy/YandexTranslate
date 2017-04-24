@@ -2,11 +2,13 @@ package daniyaramangeldy.yandextranslate.repository;
 
 
 import android.support.v4.util.ArrayMap;
+import android.util.Log;
 
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -14,15 +16,15 @@ import javax.inject.Inject;
 import daniyaramangeldy.yandextranslate.api.YandexTranslateApi;
 import daniyaramangeldy.yandextranslate.mvp.model.entity.Favourite;
 import daniyaramangeldy.yandextranslate.mvp.model.entity.Language;
+import daniyaramangeldy.yandextranslate.mvp.model.entity.LanguageMap;
 import daniyaramangeldy.yandextranslate.mvp.model.entity.RealmFavourite;
-import daniyaramangeldy.yandextranslate.mvp.model.entity.RealmString;
+import daniyaramangeldy.yandextranslate.mvp.model.entity.RealmLanguage;
 import daniyaramangeldy.yandextranslate.mvp.model.entity.RealmTranslateResponse;
 import daniyaramangeldy.yandextranslate.mvp.model.entity.TranslateResponse;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
-import io.realm.RealmList;
 import io.realm.RealmResults;
 
 /**
@@ -31,6 +33,9 @@ import io.realm.RealmResults;
 
 public class LanguageRepositoryImpl implements LanguageRepository {
 
+
+    private final String LANGUAGE_RUSSIAN = "ru";
+    private static final String TAG = "LanguageRepositoryImpl";
 
     private YandexTranslateApi api;
     private String token;
@@ -43,8 +48,31 @@ public class LanguageRepositoryImpl implements LanguageRepository {
 
 
     @Override
-    public Observable<List<Language>> getLanguages() {
-        return api.getLanguages(token, "ru");
+    public Observable<LanguageMap> loadLanguages() {
+        return api.getLanguages(token, LANGUAGE_RUSSIAN)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(this::setLangsToCache);
+    }
+
+    private void setLangsToCache(LanguageMap languageMap) {
+        Realm realm = Realm.getDefaultInstance();
+        try {
+            if(realm.where(RealmLanguage.class).findAll().size()==0) {
+                realm.executeTransaction(realm1 -> {
+                    for (Map.Entry<String, String> entry : languageMap.getLangMap().entrySet()) {
+                        RealmLanguage realmLanguage = realm1.createObject(RealmLanguage.class);
+                        realmLanguage.setId_(entry.getKey());
+                        realmLanguage.setName(entry.getValue());
+                    }
+                });
+
+            }
+        }catch (Exception e){
+           e.printStackTrace();
+        }finally {
+            realm.close();
+        }
     }
 
     @Override
@@ -211,6 +239,50 @@ public class LanguageRepositoryImpl implements LanguageRepository {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public List<Language> getLanguageList() {
+        Realm realm = Realm.getDefaultInstance();
+        try {
+            RealmResults<RealmLanguage> realmLangList = realm.where(RealmLanguage.class).findAll();
+            List<Language> langList = new ArrayList<>();
+            for (RealmLanguage realmLang : realmLangList) {
+                langList.add(parseLangFromRealm(realmLang));
+            }
+            realm.close();
+            return langList;
+
+        }catch (Exception e){
+            realm.close();
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public String getLangByKey(String key) {
+        String result = "";
+        Realm realm = Realm.getDefaultInstance();
+        try {
+            RealmLanguage realmLang = realm.where(RealmLanguage.class).equalTo("id_", key).findFirst();
+            if (realmLang != null) {
+                result = realmLang.getName();
+            }
+            realm.close();
+            return result;
+        }catch (Exception e){
+            e.printStackTrace();
+            realm.close();
+            return "";
+        }
+    }
+
+    private Language parseLangFromRealm(RealmLanguage realmLang) {
+        Language lang = new Language();
+        lang.setId_(realmLang.getId_());
+        lang.setName(realmLang.getName());
+        return lang;
     }
 
     @Override
