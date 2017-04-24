@@ -71,6 +71,7 @@ public class TranslatePresenter extends MvpPresenter<TranslateView> {
     }
 
     public void translateText(String text) {
+        getViewState().showProgressBar();
         if (!TextUtils.isEmpty(text)) {
             translateInteractor.translateText(text.trim())
                     .subscribe(new resultObserver());
@@ -103,6 +104,7 @@ public class TranslatePresenter extends MvpPresenter<TranslateView> {
         public void onNext(TranslateResponse value) {
             lastResponse = value;
             getViewState().checkFavourite(value.isFavourite());
+            getViewState().hideProgressBar();
             getViewState().eventBookmark();
             getViewState()
                     .showTranslateText(value.getText());
@@ -112,6 +114,7 @@ public class TranslatePresenter extends MvpPresenter<TranslateView> {
         public void onError(Throwable e) {
             e.printStackTrace();
             getViewState().showError(e.getMessage());
+            getViewState().hideProgressBar();
         }
 
         @Override

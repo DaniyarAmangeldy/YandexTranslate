@@ -14,4 +14,6 @@ public interface TranslateView extends MvpView {
     void setCurrentLanguage(String from,String to);
     void checkFavourite(boolean check);
     void setLastResult(String result);
+    void showProgressBar();
+    void hideProgressBar();
 }

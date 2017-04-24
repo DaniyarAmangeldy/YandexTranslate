@@ -28,6 +28,11 @@
     <string name="string.error.add.favourite">Не удалось добавить в избранное</string>
     <string name="string.error.remove.favourite">Не удалось удалить с избранного</string>
 
+    <!-- PlaceHolder -->
+
+    <string name="string.placeholder.favourites">У вас нет избранных \n¯\\_(ツ)_/¯</string>
+    <string name="string.placeholder.history">У вас нет записей в истории \n¯\\_(ツ)_/¯</string>
+
 
     <!-- Текст для требования -->
     <string name="string.label.link">Переведено сервисом «Яндекс.Переводчик»</string>

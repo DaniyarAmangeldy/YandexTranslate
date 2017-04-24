@@ -24,7 +24,7 @@ public class FavouritePresenter extends MvpPresenter<FavouriteView> {
     @Inject
     Resources res;
 
-    public FavouritePresenter(){
+    public FavouritePresenter() {
         MyApplication.component().inject(this);
     }
 
@@ -32,11 +32,14 @@ public class FavouritePresenter extends MvpPresenter<FavouriteView> {
         getViewState().initRecyclerViewOrUpdate(bookmarksInteractor.getFavourites());
     }
 
-    public void navigateToTranslate(String text){
+    public void navigateToTranslate(String text) {
         Favourite favourite = bookmarksInteractor.getFavourite(text);
-        if(favourite!=null){
-            getViewState().navigateToTranslate(favourite.getOriginalText(),favourite.getText(),favourite.getLang());
+        if (favourite != null) {
+            getViewState().navigateToTranslate(favourite.getOriginalText(), favourite.getText(), favourite.getLang());
         }
     }
 
+    public boolean removeFromFavourite(Favourite favourite){
+        return bookmarksInteractor.removeFavourite(favourite.getOriginalText());
+    }
 }

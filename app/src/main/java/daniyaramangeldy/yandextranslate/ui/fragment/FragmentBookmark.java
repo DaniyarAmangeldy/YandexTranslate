@@ -37,7 +37,9 @@ public class FragmentBookmark extends MvpAppCompatFragment implements ViewPager.
     private static final String EXTRA_LANGUAGE = "language";
 
     private final int REQUEST_NAVIGATE = 3;
-    private final int REQUEST_UPDATE_HISTORY = 2;
+    private final int REQUEST_UPDATE_BOOKMARKS = 2;
+    private final int REQUEST_UPDATE_HISTORY = 5;
+    private final int REQUEST_UPDATE_FAVOURITE = 6;
 
     private FragmentBookmarkBinding binding;
     private TabNavigationPagerAdapter tabAdapter;
@@ -139,7 +141,7 @@ public class FragmentBookmark extends MvpAppCompatFragment implements ViewPager.
 
     public void showFabButton() {
         fabHidden = false;
-        if (!binding.bookmarksBtnDelete.isShown())
+        if (!binding.bookmarksBtnDelete.isShown() && binding.fragmentBookmarkTablayout.getSelectedTabPosition() != 1)
             binding.bookmarksBtnDelete.show();
     }
 
@@ -188,14 +190,28 @@ public class FragmentBookmark extends MvpAppCompatFragment implements ViewPager.
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_UPDATE_HISTORY) {
-                if (historyListener != null && favouriteListener != null) {
-                    historyListener.onUpdate();
-                    favouriteListener.onUpdate();
-                }
+            switch (requestCode) {
+                case REQUEST_UPDATE_BOOKMARKS:
+                    if (historyListener != null && favouriteListener != null) {
+                        historyListener.onUpdate();
+                        favouriteListener.onUpdate();
+                    }
+                    break;
+                case REQUEST_UPDATE_HISTORY:
+                    if (historyListener != null && data != null) {
+                        historyListener.onUpdate();
+                        getTargetFragment().onActivityResult(REQUEST_UPDATE_BOOKMARKS, RESULT_OK, data);
+
+                    }
+                    break;
+                case REQUEST_UPDATE_FAVOURITE:
+                    if (favouriteListener != null && data != null) {
+                        favouriteListener.onUpdate();
+                        getTargetFragment().onActivityResult(REQUEST_UPDATE_BOOKMARKS, RESULT_OK, data);
+                    }
+
+                    break;
             }
         }
     }
-
-
 }

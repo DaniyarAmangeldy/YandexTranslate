@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -17,6 +18,7 @@ import butterknife.OnClick;
 import butterknife.OnLongClick;
 import daniyaramangeldy.yandextranslate.R;
 import daniyaramangeldy.yandextranslate.mvp.model.entity.Favourite;
+import daniyaramangeldy.yandextranslate.mvp.model.entity.TranslateResponse;
 
 /**
  * Created by daniyaramangeldy on 23.04.17.
@@ -25,18 +27,23 @@ import daniyaramangeldy.yandextranslate.mvp.model.entity.Favourite;
 public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.FavouriteHolder> {
 
     private List<Favourite> responseList;
+    private List<Favourite> filterList;
     private onClickListener clickListener;
 
-    public interface onClickListener{
+    public interface onClickListener {
         void onClick(String id);
+
+        void onCheckFavourite(Favourite favourite, boolean checked,int position);
     }
 
-    public void setOnClickListener(onClickListener listener){
+    public void setOnClickListener(onClickListener listener) {
         this.clickListener = listener;
     }
 
     public FavouriteAdapter(List<Favourite> responseList) {
         this.responseList = responseList;
+        this.filterList = new ArrayList<>();
+        this.filterList.addAll(responseList);
     }
 
 
@@ -48,17 +55,44 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.Favo
 
     @Override
     public void onBindViewHolder(FavouriteHolder holder, int position) {
-        Favourite item = responseList.get(position);
+        Favourite item = filterList.get(position);
         holder.bindView(item);
     }
 
     @Override
     public int getItemCount() {
-        return responseList.size();
+        return filterList.size();
     }
 
     public void setList(List<Favourite> responseList) {
         this.responseList = responseList;
+        this.filterList.clear();
+        this.filterList.addAll(responseList);
+        notifyDataSetChanged();
+    }
+
+    public void removeFavourite(int position){
+        for(int i=0;i<responseList.size();i++){
+            if(responseList.get(i).getId().equals(filterList.get(position).getId())){
+                responseList.remove(i);
+            }
+        }
+        this.filterList.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void filterText(String filter) {
+        filterList.clear();
+        if (filter.isEmpty()) {
+            filterList.addAll(responseList);
+        } else {
+            filter = filter.toLowerCase();
+            for (Favourite item : responseList) {
+                if (item.getOriginalText().toLowerCase().contains(filter) || item.getText().toLowerCase().contains(filter)) {
+                    filterList.add(item);
+                }
+            }
+        }
         notifyDataSetChanged();
     }
 
@@ -82,6 +116,7 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.Favo
         }
 
         private void bindView(Favourite response) {
+            checkFlag = false;
             checkBox.setChecked(response.isFavourite());
             language.setText(response.getLang().toUpperCase());
             textOriginal.setText(response.getOriginalText());
@@ -90,17 +125,17 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.Favo
         }
 
         @OnClick(R.id.bookmarks_item_container)
-        public void itemClick(){
-            if(clickListener!=null){
-                clickListener.onClick(responseList.get(getAdapterPosition()).getOriginalText());
+        public void itemClick() {
+            if (clickListener != null) {
+                clickListener.onClick(filterList.get(getAdapterPosition()).getOriginalText());
             }
         }
 
 
         @OnCheckedChanged(R.id.bookmarks_item_btn_bookmark)
-        public void toggleBookmark(boolean isChecked){
-            if(isChecked){
-            }else{
+        public void toggleBookmark(boolean isChecked) {
+            if (clickListener != null && checkFlag) {
+                clickListener.onCheckFavourite(filterList.get(getAdapterPosition()),isChecked,getAdapterPosition());
             }
         }
     }

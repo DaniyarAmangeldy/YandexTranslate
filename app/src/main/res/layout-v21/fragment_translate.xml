@@ -64,6 +64,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginTop="8dp"
                 android:background="@android:color/transparent"
                 android:gravity="top|start"
@@ -82,6 +83,16 @@
                 android:background="?selectableItemBackgroundBorderless"
                 android:visibility="invisible"
                 android:src="@drawable/ic_close_36dp" />
+
+            <TextView
+                android:id="@+id/yandex_link_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:padding="8dp"
+                android:textSize="12sp"
+                android:text="@string/string.label.link"/>
 
 
         </RelativeLayout>
@@ -108,6 +119,16 @@
             android:background="?selectableItemBackgroundBorderless"
             android:visibility="invisible"
             android:button="@drawable/ic_favourite" />
+
+
+        <ProgressBar
+            android:id="@+id/fragment_transalte_pb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fragment_translate_layout_whiteboard"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"
+            />
 
 
     </RelativeLayout>

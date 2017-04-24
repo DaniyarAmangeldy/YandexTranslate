@@ -125,26 +125,32 @@ public class LanguageRepositoryImpl implements LanguageRepository {
     @Override
     public boolean addFavourite(TranslateResponse response) {
         Realm realm = Realm.getDefaultInstance();
-        try {
-            realm.executeTransaction(realm1 -> {
-                RealmFavourite favourite = realm1.createObject(RealmFavourite.class, UUID.randomUUID().toString());
-                favourite.setText(response.getText());
-                favourite.setLang(response.getLang());
-                favourite.setOriginalText(response.getOriginalText());
-                favourite.setFavourite(true);
-                RealmTranslateResponse cache = realm1.where(RealmTranslateResponse.class)
-                        .equalTo("originalText", response.getOriginalText())
-                        .findFirst();
-                if (cache != null) {
-                    cache.setFavourite(true);
-                }
-            });
-            realm.close();
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+        RealmFavourite favouriteCheck = realm.where(RealmFavourite.class)
+                .equalTo("originalText", response.getOriginalText())
+                .findFirst();
+        if (favouriteCheck == null) {
+            try {
+                realm.executeTransaction(realm1 -> {
+                    RealmFavourite favourite = realm1.createObject(RealmFavourite.class, UUID.randomUUID().toString());
+                    favourite.setText(response.getText());
+                    favourite.setLang(response.getLang());
+                    favourite.setOriginalText(response.getOriginalText());
+                    favourite.setFavourite(true);
+                    RealmTranslateResponse cache = realm1.where(RealmTranslateResponse.class)
+                            .equalTo("originalText", response.getOriginalText())
+                            .findFirst();
+                    if (cache != null) {
+                        cache.setFavourite(true);
+                    }
+                });
+                realm.close();
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
         }
+        return true;
     }
 
     @Override

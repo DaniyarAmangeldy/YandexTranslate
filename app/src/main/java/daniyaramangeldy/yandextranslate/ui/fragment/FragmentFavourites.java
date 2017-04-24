@@ -1,15 +1,15 @@
 package daniyaramangeldy.yandextranslate.ui.fragment;
 
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -28,7 +28,12 @@ import daniyaramangeldy.yandextranslate.mvp.presenter.FavouritePresenter;
 import daniyaramangeldy.yandextranslate.mvp.view.FavouriteView;
 import daniyaramangeldy.yandextranslate.ui.adapter.FavouriteAdapter;
 
-public class FragmentFavourites extends MvpAppCompatFragment implements FavouriteView, FragmentBookmark.favouriteUpdateListener, FavouriteAdapter.onClickListener {
+import static android.app.Activity.RESULT_OK;
+
+public class FragmentFavourites extends MvpAppCompatFragment implements FavouriteView, FragmentBookmark.favouriteUpdateListener, FavouriteAdapter.onClickListener, SearchView.OnQueryTextListener {
+
+    private final String EMPTY_MESSAGE = "";
+    private final int REQUEST_UPDATE_HISTORY = 5;
 
     private FragmentHistoryBinding binding;
     private FavouriteAdapter adapter;
@@ -63,7 +68,7 @@ public class FragmentFavourites extends MvpAppCompatFragment implements Favourit
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding =  DataBindingUtil.inflate(inflater,R.layout.fragment_history, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_history, container, false);
         View view = binding.getRoot();
         ButterKnife.bind(view);
         return view;
@@ -77,22 +82,46 @@ public class FragmentFavourites extends MvpAppCompatFragment implements Favourit
 
     private void initView() {
         presenter.getFavourite();
+        setSearchView();
+    }
 
+    private void setSearchView() {
+        binding.bookmarksSearchBar.setActivated(true);
+        binding.bookmarksSearchBar.setQueryHint(getResources().getString(R.string.string_search_favourite));
+        binding.bookmarksSearchBar.onActionViewExpanded();
+        binding.bookmarksSearchBar.setIconified(false);
+        binding.bookmarksSearchBar.clearFocus();
     }
 
     @Override
-    public void initRecyclerViewOrUpdate(List<Favourite> favourite) {
+    public void initRecyclerViewOrUpdate(List<Favourite> favouriteList) {
+        if (favouriteList.size() == 0) {
+            setPlaceHolder(R.string.string_placeholder_favourites);
+        } else {
+            hidePlaceHolder();
+        }
         if (adapter == null) {
             binding.bookmarksRv.setLayoutManager(getLayoutManager());
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(binding.bookmarksRv.getContext(),
-                    ((LinearLayoutManager)binding.bookmarksRv.getLayoutManager()).getOrientation());
+                    ((LinearLayoutManager) binding.bookmarksRv.getLayoutManager()).getOrientation());
             binding.bookmarksRv.addItemDecoration(dividerItemDecoration);
-            adapter = new FavouriteAdapter(favourite);
+            adapter = new FavouriteAdapter(favouriteList);
             adapter.setOnClickListener(this);
             binding.bookmarksRv.setAdapter(adapter);
+            binding.bookmarksSearchBar.setOnQueryTextListener(this);
         } else {
-            adapter.setList(favourite);
+            adapter.setList(favouriteList);
         }
+    }
+
+    private void hidePlaceHolder() {
+        if (binding.bookmarksPlaceholder.getVisibility() == View.VISIBLE)
+            binding.bookmarksPlaceholder.setVisibility(View.GONE);
+    }
+
+    private void setPlaceHolder(int placeHolder) {
+        binding.bookmarksPlaceholder.setVisibility(View.VISIBLE);
+        binding.bookmarksPlaceholder.setText(getResources().getString(placeHolder));
     }
 
     private RecyclerView.LayoutManager getLayoutManager() {
@@ -105,8 +134,8 @@ public class FragmentFavourites extends MvpAppCompatFragment implements Favourit
     }
 
     @Override
-    public void navigateToTranslate(String original, String translate,String lang) {
-        parentFragment.navigateToTranslate(original,translate,true,lang);
+    public void navigateToTranslate(String original, String translate, String lang) {
+        parentFragment.navigateToTranslate(original, translate, true, lang);
     }
 
     @Override
@@ -116,7 +145,32 @@ public class FragmentFavourites extends MvpAppCompatFragment implements Favourit
 
     @Override
     public void onClick(String text) {
+        binding.bookmarksSearchBar.setQuery(EMPTY_MESSAGE,false);
         presenter.navigateToTranslate(text);
     }
 
+    @Override
+    public void onCheckFavourite(Favourite favourite, boolean checked,int position) {
+        boolean delete = presenter.removeFromFavourite(favourite);
+        if(delete) {
+            adapter.removeFavourite(position);
+            Intent data = new Intent();
+            data.putExtra("favourite",checked);
+            data.putExtra("text",favourite.getOriginalText());
+            parentFragment.onActivityResult(REQUEST_UPDATE_HISTORY,RESULT_OK,data);
+        } else showError(getResources().getString(R.string.string_error_remove_favourite));
+
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        adapter.filterText(query);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        adapter.filterText(newText);
+        return true;
+    }
 }

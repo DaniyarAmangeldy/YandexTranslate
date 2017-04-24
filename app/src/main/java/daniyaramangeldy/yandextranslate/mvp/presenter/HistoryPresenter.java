@@ -46,6 +46,14 @@ public class HistoryPresenter extends MvpPresenter<HistoryView> {
         return bookmarksInteractor.removeHistory(text);
     }
 
+    public boolean addFavourite(TranslateResponse response){
+        return bookmarksInteractor.addFavourite(response);
+    }
+
+    public boolean removeFromFavourite(TranslateResponse response){
+        return bookmarksInteractor.removeFavourite(response.getOriginalText());
+    }
+
 
 
 }

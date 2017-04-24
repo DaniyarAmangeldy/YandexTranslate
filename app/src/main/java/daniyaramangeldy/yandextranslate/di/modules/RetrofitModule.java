@@ -3,6 +3,8 @@ package daniyaramangeldy.yandextranslate.di.modules;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -29,7 +31,10 @@ public class RetrofitModule {
 
     @Provides@Singleton
     public OkHttpClient getClient(){
-        return new OkHttpClient();
+        return new OkHttpClient().newBuilder()
+                .readTimeout(20, TimeUnit.SECONDS)
+                .connectTimeout(20, TimeUnit.SECONDS)
+                .build();
     }
 
     @Provides@Singleton

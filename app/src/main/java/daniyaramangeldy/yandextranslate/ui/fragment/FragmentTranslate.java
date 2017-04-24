@@ -5,11 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -95,16 +98,29 @@ public class FragmentTranslate extends MvpAppCompatFragment implements Translate
     }
 
     private void initView() {
+        res = getResources();
         presenter.initCurrentLanguage();
         presenter.initLastTranslate();
         imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        res = getResources();
         binding.fragmentTranslateOutput.setMovementMethod(new ScrollingMovementMethod());
-        if (lastWord != null) {
-            binding.fragmentTranslateInput.setText(lastWord);
-        }
+        setLastWord();
         binding.fragmentTranslateInput.addTextChangedListener(this);
+        setLinkLabel();
+    }
 
+    private void setLastWord() {
+        if (lastWord != null) binding.fragmentTranslateInput.setText(lastWord);
+    }
+
+    private void setLinkLabel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            binding.yandexLinkBtn.setText(Html.fromHtml(
+                    "<a href=\"http://translate.yandex.ru/\">"+getResources().getString(R.string.string_label_link)+"</a>",Html.FROM_HTML_MODE_LEGACY));
+        }else{
+            binding.yandexLinkBtn.setText(Html.fromHtml(
+                    "<a href=\"http://translate.yandex.ru/\">"+getResources().getString(R.string.string_label_link)+"</a>"));
+        }
+        binding.yandexLinkBtn.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
 
@@ -147,6 +163,27 @@ public class FragmentTranslate extends MvpAppCompatFragment implements Translate
     @Override
     public void setLastResult(String result) {
         binding.fragmentTranslateInput.setText(result);
+    }
+
+    @Override
+    public void showProgressBar() {
+        getActivity().runOnUiThread(() -> {
+            if(binding.fragmentTranslateOutput.isShown() && binding.fragmentTranslateInput.length()>0) {
+                binding.fragmentTranslateOutput.setVisibility(View.GONE);
+                binding.fragmentTransaltePb.setVisibility(View.VISIBLE);
+                binding.fragmentTranslateSwap.setEnabled(false);
+            }
+        });
+
+    }
+
+    @Override
+    public void hideProgressBar() {
+        if(binding.fragmentTransaltePb.isShown()){
+            binding.fragmentTransaltePb.setVisibility(View.GONE);
+            binding.fragmentTranslateOutput.setVisibility(View.VISIBLE);
+            binding.fragmentTranslateSwap.setEnabled(true);
+        }
     }
 
 
@@ -249,6 +286,15 @@ public class FragmentTranslate extends MvpAppCompatFragment implements Translate
                 binding.fragmentTranslateInput.setText(lastWord);
                 presenter.setCurrentLanguage(language);
             }
+            if(requestCode == REQUEST_UPDATE_HISTORY && data!=null){
+                if(binding.fragmentTranslateInput.getText().toString().equals(data.getStringExtra("text"))){
+                    favouriteListenerOn = !favouriteListenerOn;
+                    binding.fragmentTranslateOutputBtnBookmark.setChecked(data.getBooleanExtra("favourite",false));
+                    favouriteListenerOn = !favouriteListenerOn;
+
+                }
+            }
         }
+        
     }
 }
