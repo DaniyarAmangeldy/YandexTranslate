@@ -12,23 +12,23 @@ import javax.inject.Inject;
 import daniyaramangeldy.yandextranslate.mvp.model.entity.Language;
 import daniyaramangeldy.yandextranslate.mvp.model.entity.LanguageMap;
 import daniyaramangeldy.yandextranslate.mvp.model.entity.TranslateResponse;
-import daniyaramangeldy.yandextranslate.repository.LanguageRepository;
+import daniyaramangeldy.yandextranslate.repository.Repository;
 import io.reactivex.Observable;
 
 /**
- * Created by daniyaramangeldy on 21.04.17.
+ * Имплементация Интерактора usecase Перевода.
  */
 
 public class TranslateInteractorImpl implements TranslateInteractor {
     private final String KEY_LANG = "lang";
     private final String KEY_SYSTEM_LANG = "systemLang";
 
-    private LanguageRepository langRepository;
+    private Repository langRepository;
     private SharedPreferences sp;
     private Resources res;
 
     @Inject
-    public TranslateInteractorImpl(LanguageRepository langRepository, SharedPreferences sp, Resources res) {
+    public TranslateInteractorImpl(Repository langRepository, SharedPreferences sp, Resources res) {
         this.langRepository = langRepository;
         this.sp = sp;
         this.res = res;
@@ -60,6 +60,7 @@ public class TranslateInteractorImpl implements TranslateInteractor {
         return langRepository.getLangByKey(s,getSystemLanguage());
     }
 
+    //TODO: Получить Язык из SharedPreferences. Язык выбранный userом я храню в sharedPreferences
     private String getLanguageFromSharedPreferences() {
         return sp.getString(KEY_LANG, "ru-en");
     }
@@ -89,9 +90,11 @@ public class TranslateInteractorImpl implements TranslateInteractor {
         }
     }
 
+    //TODO: Изменяем в sharedPreferences СИСТЕМНЫЙ язык :)
     private void editSystemLanguage(String language) {
         sp.edit().putString(KEY_SYSTEM_LANG,language).apply();
     }
+
 
     @Override
     public List<Language> getLanguageList() {

@@ -1,7 +1,7 @@
 package daniyaramangeldy.yandextranslate.mvp.model.entity;
 
 /**
- * Created by daniyaramangeldy on 23.04.17.
+ * Моделька для Избранных (не привязанная к realm) Нужна для слоя presenter и view
  */
 
 public class Favourite {

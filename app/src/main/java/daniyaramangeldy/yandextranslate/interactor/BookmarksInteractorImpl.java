@@ -4,25 +4,29 @@ import java.util.List;
 
 
 import daniyaramangeldy.yandextranslate.mvp.model.entity.Favourite;
-import daniyaramangeldy.yandextranslate.repository.LanguageRepository;
+import daniyaramangeldy.yandextranslate.repository.Repository;
 import daniyaramangeldy.yandextranslate.mvp.model.entity.TranslateResponse;
 
 /**
- * Created by daniyaramangeldy on 22.04.17.
+ * Имплементация интерактора закладок (История , Избранное)
+ * В общем мои Интерактор получился что то типа обращения в репозитории
  */
 
 public class BookmarksInteractorImpl implements BookmarksInteractor {
 
-    private LanguageRepository repository;
+    private Repository repository;
 
-    public BookmarksInteractorImpl(LanguageRepository repository){
+    public BookmarksInteractorImpl(Repository repository){
         this.repository = repository;
     }
+
 
     @Override
     public List<TranslateResponse> getHistoryList() {
         return repository.getHistoryList();
     }
+
+
 
     @Override
     public boolean clearHistory() {

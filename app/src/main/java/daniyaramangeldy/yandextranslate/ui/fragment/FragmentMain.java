@@ -89,6 +89,8 @@ public class FragmentMain extends MvpAppCompatFragment implements MainView, AHBo
         pager.setAdapter(adapter);
     }
 
+    //TODO : Обработка события , Если нажали на элемент из истории или избранного , переходит в окно перевода
+
     @Override
     public void navigateToTranslateWindow() {
         navigation.setCurrentItem(0);

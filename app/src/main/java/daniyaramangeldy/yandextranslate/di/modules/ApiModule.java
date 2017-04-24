@@ -8,7 +8,7 @@ import daniyaramangeldy.yandextranslate.api.YandexTranslateApi;
 import retrofit2.Retrofit;
 
 /**
- * Created by daniyaramangeldy on 21.04.17.
+ * Модуль для Сервиса Api
  */
 
 @Module(includes = {RetrofitModule.class})

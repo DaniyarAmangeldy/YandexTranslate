@@ -93,6 +93,7 @@ public class FragmentFavourites extends MvpAppCompatFragment implements Favourit
         binding.bookmarksSearchBar.clearFocus();
     }
 
+    //TODO : Ставим или же обновляем список
     @Override
     public void initRecyclerViewOrUpdate(List<Favourite> favouriteList) {
         if (favouriteList.size() == 0) {
@@ -118,7 +119,7 @@ public class FragmentFavourites extends MvpAppCompatFragment implements Favourit
         if (binding.bookmarksPlaceholder.getVisibility() == View.VISIBLE)
             binding.bookmarksPlaceholder.setVisibility(View.GONE);
     }
-
+    // TODO: Placeholder для пустого массива
     private void setPlaceHolder(int placeHolder) {
         binding.bookmarksPlaceholder.setVisibility(View.VISIBLE);
         binding.bookmarksPlaceholder.setText(getResources().getString(placeHolder));
@@ -133,11 +134,13 @@ public class FragmentFavourites extends MvpAppCompatFragment implements Favourit
         Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
     }
 
+    //TODO : При нажатии на элемент из списка -> переход в окно перевода
     @Override
     public void navigateToTranslate(String original, String translate, String lang) {
         parentFragment.navigateToTranslate(original, translate, true, lang);
     }
 
+    //TODO: Обработка события , добавлено или изменено список избранных
     @Override
     public void onUpdate() {
         presenter.getFavourite();
@@ -149,6 +152,7 @@ public class FragmentFavourites extends MvpAppCompatFragment implements Favourit
         presenter.navigateToTranslate(text);
     }
 
+    // TODO : Добавить или удалить выбранное из списка избранное
     @Override
     public void onCheckFavourite(Favourite favourite, boolean checked,int position) {
         boolean delete = presenter.removeFromFavourite(favourite);

@@ -8,7 +8,7 @@ import daniyaramangeldy.yandextranslate.mvp.model.entity.TranslateResponse;
 
 
 /**
- * Created by daniyaramangeldy on 22.04.17.
+ * Вьюшка Истории
  */
 
 public interface HistoryView extends MvpView {

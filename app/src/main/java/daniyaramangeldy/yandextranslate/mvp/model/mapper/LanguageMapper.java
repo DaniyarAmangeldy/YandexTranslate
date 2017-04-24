@@ -14,7 +14,7 @@ import java.util.Map;
 import daniyaramangeldy.yandextranslate.mvp.model.entity.LanguageMap;
 
 /**
- * Created by daniyaramangeldy on 24.04.17.
+ * Маппер для модельки Языка
  */
 
 public class LanguageMapper implements JsonDeserializer<LanguageMap> {

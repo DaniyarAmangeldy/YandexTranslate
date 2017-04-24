@@ -5,7 +5,7 @@ package daniyaramangeldy.yandextranslate.mvp.model.entity;
 import io.realm.RealmObject;
 
 /**
- * Created by daniyaramangeldy on 21.04.17.
+ * Моделька для Языка (Привязанная realm).она хранится в БД
  */
 
 public class RealmLanguage extends RealmObject {

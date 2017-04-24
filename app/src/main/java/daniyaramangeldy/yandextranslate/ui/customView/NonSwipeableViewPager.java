@@ -1,7 +1,7 @@
 package daniyaramangeldy.yandextranslate.ui.customView;
 
 /**
- * Created by daniyaramangeldy on 24.04.17.
+ * Нужен чтобы не сваипалась нижняя менюшка
  */
 import android.content.Context;
 import android.support.v4.view.ViewPager;

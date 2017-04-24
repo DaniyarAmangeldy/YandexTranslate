@@ -2,13 +2,11 @@ package daniyaramangeldy.yandextranslate.repository;
 
 
 import android.support.v4.util.ArrayMap;
-import android.util.Log;
 
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
@@ -32,19 +30,23 @@ import io.realm.RealmResults;
  * Repository
  */
 
-public class LanguageRepositoryImpl implements LanguageRepository {
-    
+public class RepositoryImpl implements Repository {
+
     private YandexTranslateApi api;
     private String token;
     private String lang;
 
     @Inject
-    public LanguageRepositoryImpl(YandexTranslateApi api, String token) {
+    public RepositoryImpl(YandexTranslateApi api, String token) {
         this.api = api;
         this.token = token;
     }
 
-
+    /**
+     * Ищем в кэше список языков по системному языку , если нету в кэше , загружаем с API
+     * @param lang
+     * @return
+     */
     @Override
     public Observable<LanguageMap> loadLanguages(String lang) {
         Realm realm = Realm.getDefaultInstance();
@@ -61,6 +63,10 @@ public class LanguageRepositoryImpl implements LanguageRepository {
                 .doOnNext(this::setLangsToCache);
     }
 
+    /**
+     * Кэшируем полученные Языки
+     * @param languageMap
+     */
     private void setLangsToCache(LanguageMap languageMap) {
         Realm realm = Realm.getDefaultInstance();
         try {
@@ -83,6 +89,13 @@ public class LanguageRepositoryImpl implements LanguageRepository {
         }
     }
 
+
+    /**
+     * Поиск Обьекта в Кэше
+     * @param text
+     * @param lang
+     * @return
+     */
     @Override
     public TranslateResponse findTranslateInCache(String text, String lang) {
         Realm realm = Realm.getDefaultInstance();
@@ -103,6 +116,13 @@ public class LanguageRepositoryImpl implements LanguageRepository {
         }
     }
 
+    /**
+     * Поиск Перевода в кэше Избранных
+     * @param realm
+     * @param text
+     * @param lang
+     * @return
+     */
     private RealmFavourite findTranslateFromFavourite(Realm realm, String text, String lang) {
         RealmFavourite favourite = realm.where(RealmFavourite.class)
                 .equalTo("originalText", text)
@@ -111,6 +131,13 @@ public class LanguageRepositoryImpl implements LanguageRepository {
         return favourite;
     }
 
+    /**
+     * Поиск Перевода в кэше истории
+     * @param realm
+     * @param text
+     * @param lang
+     * @return
+     */
     private RealmTranslateResponse findTranslateFromHistory(Realm realm, String text, String lang) {
         RealmTranslateResponse response = realm.where(RealmTranslateResponse.class)
                 .equalTo("originalText", text)
@@ -120,6 +147,12 @@ public class LanguageRepositoryImpl implements LanguageRepository {
     }
 
 
+    /**
+     * Перевод Текста.  Сначала Ищем по Кэшу. Если нет в Кэше то идем в API
+     * @param text
+     * @param lang
+     * @return
+     */
     @Override
     public Observable<TranslateResponse> translateText(String text, String lang) {
         TranslateResponse cacheResponse = findTranslateInCache(text, lang);
@@ -142,6 +175,11 @@ public class LanguageRepositoryImpl implements LanguageRepository {
                 .map(this::parseTranslateFromRealmObject);
     }
 
+    /**
+     * Получить список Избранных их кэша
+     * @return
+     */
+
     @Override
     public List<Favourite> getFavourites() {
         Realm realm = Realm.getDefaultInstance();
@@ -157,6 +195,12 @@ public class LanguageRepositoryImpl implements LanguageRepository {
         Collections.reverse(favouriteList);
         return favouriteList;
     }
+
+    /**
+     * Добавить в избранное обьект
+     * @param response
+     * @return
+     */
 
     @Override
     public boolean addFavourite(TranslateResponse response) {
@@ -189,6 +233,12 @@ public class LanguageRepositoryImpl implements LanguageRepository {
         return true;
     }
 
+    /**
+     * Удалить Избранное из кэша. Также ставить unchecked в обьекта из истории
+     * @param text
+     * @return
+     */
+
     @Override
     public boolean removeFavourite(String text) {
         Realm realm = Realm.getDefaultInstance();
@@ -216,6 +266,11 @@ public class LanguageRepositoryImpl implements LanguageRepository {
         }
     }
 
+    /**
+     * Получить Обьект избранного из кэша
+     * @param text
+     * @return
+     */
     @Override
     public Favourite getFavourite(String text) {
         Realm realm = Realm.getDefaultInstance();
@@ -231,6 +286,11 @@ public class LanguageRepositoryImpl implements LanguageRepository {
         return null;
     }
 
+    /**
+     * Получить Обьект истории из кэша
+     * @param text
+     * @return
+     */
     @Override
     public TranslateResponse getHistory(String text) {
         try {
@@ -249,6 +309,11 @@ public class LanguageRepositoryImpl implements LanguageRepository {
         return null;
     }
 
+    /**
+     * Получить список языков по определенному lang (системный язык)
+     * @param lang
+     * @return
+     */
     @Override
     public List<Language> getLanguageList(String lang) {
         Realm realm = Realm.getDefaultInstance();
@@ -268,6 +333,12 @@ public class LanguageRepositoryImpl implements LanguageRepository {
         }
     }
 
+    /**
+     * Получить Название языка по его ключу (ru -> Russian)
+     * @param key
+     * @param lang
+     * @return
+     */
     @Override
     public String getLangByKey(String key,String lang) {
         String result = "";
@@ -286,6 +357,12 @@ public class LanguageRepositoryImpl implements LanguageRepository {
         }
     }
 
+    /**
+     * Парсит обьект Язык из кэша , в простой обьект для view
+     * @param realmLang
+     * @return
+     */
+
     private Language parseLangFromRealm(RealmLanguage realmLang) {
         Language lang = new Language();
         lang.setId_(realmLang.getId_());
@@ -293,6 +370,10 @@ public class LanguageRepositoryImpl implements LanguageRepository {
         return lang;
     }
 
+    /**
+     * Получить Список обьектов из Истории
+     * @return
+     */
     @Override
     public List<TranslateResponse> getHistoryList() {
         Realm realm = Realm.getDefaultInstance();
@@ -310,6 +391,10 @@ public class LanguageRepositoryImpl implements LanguageRepository {
 
     }
 
+    /**
+     * Очиситить всю Историю
+     * @return
+     */
     @Override
     public boolean clearHistory() {
         try (Realm realm = Realm.getDefaultInstance()) {
@@ -321,6 +406,12 @@ public class LanguageRepositoryImpl implements LanguageRepository {
         }
         return true;
     }
+
+    /**
+     * Удалить из истории Обьект
+     * @param text идет как id обьекта
+     * @return
+     */
 
     @Override
     public boolean removeHistory(String text) {
@@ -343,6 +434,10 @@ public class LanguageRepositoryImpl implements LanguageRepository {
         }
     }
 
+    /**
+     * Получить последний результат из кэша истории
+     * @return
+     */
     @Override
     public TranslateResponse getLastRequest() {
         Realm realm = Realm.getDefaultInstance();
@@ -356,6 +451,12 @@ public class LanguageRepositoryImpl implements LanguageRepository {
         return null;
     }
 
+    /**
+     * Парсит Обьект (перевода ) из кеша в обьект перевода для view
+     * @param realmResponse
+     * @return
+     */
+
     private TranslateResponse parseTranslateFromRealmObject(RealmTranslateResponse realmResponse) {
 
         TranslateResponse response = new TranslateResponse();
@@ -366,6 +467,12 @@ public class LanguageRepositoryImpl implements LanguageRepository {
         response.setOriginalText(realmResponse.getOriginalText());
         return response;
     }
+
+    /**
+     * Парсит Обьект (перевода ) из кеша в обьект Избранное для view
+     * @param realmResponse
+     * @return
+     */
 
     private Favourite parseFavouriteFromRealmObject(RealmFavourite realmResponse) {
 
@@ -378,6 +485,11 @@ public class LanguageRepositoryImpl implements LanguageRepository {
         return response;
     }
 
+    /**
+     * Парсит из Обьекта избранные из кеша в обьект  для view
+     * @param favourite
+     * @return
+     */
     private TranslateResponse parseTranslateFromFavourite(RealmFavourite favourite) {
         TranslateResponse translateResponse = new TranslateResponse();
         translateResponse.setId(favourite.getId());
@@ -387,6 +499,12 @@ public class LanguageRepositoryImpl implements LanguageRepository {
         translateResponse.setText(favourite.getText());
         return translateResponse;
     }
+
+    /**
+     * Добавить перевод в кэш
+     * @param realmTranslateResponse
+     * @param originalText
+     */
 
     private void addTranslate(RealmTranslateResponse realmTranslateResponse, String originalText) {
         Realm realm = Realm.getDefaultInstance();

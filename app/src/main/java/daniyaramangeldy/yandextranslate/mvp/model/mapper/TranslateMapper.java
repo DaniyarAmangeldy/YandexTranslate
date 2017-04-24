@@ -14,7 +14,7 @@ import daniyaramangeldy.yandextranslate.mvp.model.entity.RealmTranslateResponse;
 import io.realm.RealmList;
 
 /**
- * Created by daniyaramangeldy on 22.04.17.
+ * Маппер для Обьекта Перевода
  */
 
 public class TranslateMapper implements JsonDeserializer<RealmTranslateResponse> {

@@ -10,7 +10,7 @@ import com.arellomobile.mvp.MvpAppCompatActivity;
 import daniyaramangeldy.yandextranslate.R;
 
 /**
- * Created by daniyaramangeldy on 21.04.17.
+ * Базовое Активити. Abstract метод атачит Фрагменту , которую я хочу
  */
 
 public abstract class BaseActivity extends MvpAppCompatActivity {

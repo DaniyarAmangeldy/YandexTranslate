@@ -108,6 +108,8 @@ public class FragmentChooseLanguage extends MvpAppCompatFragment implements Choo
         return new LinearLayoutManager(getContext());
     }
 
+
+    //TODO: При нажатии на элемент из списка , выбираем Язык
     @Override
     public void onClick(String key,String value) {
         Intent result = new Intent();

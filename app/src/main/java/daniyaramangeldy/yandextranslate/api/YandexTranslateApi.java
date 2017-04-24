@@ -14,13 +14,17 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 /**
- * Created by daniyaramangeldy on 21.04.17.
+ * Мой Сервис для Retrofit
  */
 
 public interface YandexTranslateApi {
 
+    //TODO: Получить список поддержимаемых языков
+
     @POST("api/v1.5/tr.json/getLangs")
     Observable<LanguageMap> getLanguages(@Query("key") String key, @Query("ui") String ui);
+
+    //TODO: Получить перевод текста
 
     @POST("api/v1.5/tr.json/translate")
     @FormUrlEncoded

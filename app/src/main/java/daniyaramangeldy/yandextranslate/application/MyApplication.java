@@ -11,7 +11,7 @@ import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
 /**
- * Created by daniyaramangeldy on 21.04.17.
+ * Custom Application , ORM realm , dagger  2 и LeakCanary подключаем тут
  */
 
 public class MyApplication extends Application {

@@ -6,17 +6,17 @@ import dagger.Module;
 import dagger.Provides;
 import daniyaramangeldy.yandextranslate.interactor.BookmarksInteractor;
 import daniyaramangeldy.yandextranslate.interactor.BookmarksInteractorImpl;
-import daniyaramangeldy.yandextranslate.repository.LanguageRepository;
+import daniyaramangeldy.yandextranslate.repository.Repository;
 
 /**
- * Created by daniyaramangeldy on 22.04.17.
+ * Модуль для UseCase Закладок(История,Избранные)
  */
 
 @Module(includes = {LanguageRepositoryModule.class})
 public class BookmarksInteractorModule {
 
     @Provides@Singleton
-    BookmarksInteractor getInteractor(LanguageRepository repository){
+    BookmarksInteractor getInteractor(Repository repository){
         return new BookmarksInteractorImpl(repository);
     }
 }

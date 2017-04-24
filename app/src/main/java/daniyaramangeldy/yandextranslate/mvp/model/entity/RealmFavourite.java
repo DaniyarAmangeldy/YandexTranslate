@@ -6,7 +6,7 @@ import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 /**
- * Created by daniyaramangeldy on 23.04.17.
+ * Моделька для Избранных (Привязанная realm).она хранится в БД
  */
 
 public class RealmFavourite extends RealmObject {

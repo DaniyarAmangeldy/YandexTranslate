@@ -4,10 +4,14 @@ import com.arellomobile.mvp.MvpView;
 
 
 /**
- * Created by daniyaramangeldy on 21.04.17.
+ * Основная Вьюшка
  */
 
 public interface MainView extends MvpView {
     void initView();
+
+    /**
+     * Функция для перехода в окно Перевода (Нужна для child фрагментов)
+     */
     void navigateToTranslateWindow();
 }

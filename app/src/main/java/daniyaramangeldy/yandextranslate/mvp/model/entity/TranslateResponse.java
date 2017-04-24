@@ -2,7 +2,7 @@ package daniyaramangeldy.yandextranslate.mvp.model.entity;
 
 
 /**
- * Created by daniyaramangeldy on 22.04.17.
+ * Моделька Для переводов (не привязана к Realm), Нужна для слоя presenter и view
  */
 
 public class TranslateResponse {

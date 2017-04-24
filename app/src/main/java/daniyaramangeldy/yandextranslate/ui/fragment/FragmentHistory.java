@@ -100,6 +100,7 @@ public class FragmentHistory extends MvpAppCompatFragment implements HistoryView
         return new LinearLayoutManager(getContext());
     }
 
+    //TODO Обновляем или ставим Список
 
     @Override
     public void initRecyclerViewOrUpdate(List<TranslateResponse> history) {
@@ -139,6 +140,8 @@ public class FragmentHistory extends MvpAppCompatFragment implements HistoryView
         Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
     }
 
+
+    //TODO Переход на окно перевода
     @Override
     public void navigateToTranslate(String original, String translate, String lang) {
         parentFragment.navigateToTranslate(original, translate, true, lang);
@@ -149,12 +152,15 @@ public class FragmentHistory extends MvpAppCompatFragment implements HistoryView
         presenter.getHistory();
     }
 
+
+    //TODO При  нажатии на список Переход на окно перевода
     @Override
     public void onClick(String text) {
         binding.bookmarksSearchBar.setQuery(EMPTY_MESSAGE, false);
         presenter.navigateToTranslate(text);
     }
 
+    //TODO При долгом нажатии на список поялвяется popup menu  с выборкой удалить избранное
     @Override
     public void onLongClick(View v, String text, int position) {
         PopupMenu popupMenu = new PopupMenu(v.getContext(), v, Gravity.CENTER_HORIZONTAL);

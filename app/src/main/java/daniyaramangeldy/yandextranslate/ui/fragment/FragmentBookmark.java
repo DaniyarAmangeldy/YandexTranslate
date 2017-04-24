@@ -60,10 +60,10 @@ public class FragmentBookmark extends MvpAppCompatFragment implements ViewPager.
     }
 
     @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-    }
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
 
+    //TODO: Скрывать кнопку FAB в окне Избранное
     @Override
     public void onPageSelected(int position) {
         switch (position) {
@@ -87,6 +87,8 @@ public class FragmentBookmark extends MvpAppCompatFragment implements ViewPager.
         Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
     }
 
+
+    //TODO: Подписка. Хотим чтобы другие знали что мы очистили Историю
     @Override
     public void onHistoryCleaned() {
         if (historyListener != null) {
@@ -94,6 +96,8 @@ public class FragmentBookmark extends MvpAppCompatFragment implements ViewPager.
         }
     }
 
+
+    //TODO: При нажатии на элемент из Избранного или истории Перейти и уведомить окно перевода
     @Override
     public void navigateToTranslate(String original, String translate, boolean favourite, String lang) {
         Intent intent = new Intent();
@@ -105,7 +109,9 @@ public class FragmentBookmark extends MvpAppCompatFragment implements ViewPager.
         ((FragmentMain) getParentFragment()).navigateToTranslateWindow();
     }
 
-
+    /**
+     *  Подписки на обновление записи
+     */
     interface historyUpdateListener {
         void onUpdate();
     }
@@ -115,6 +121,7 @@ public class FragmentBookmark extends MvpAppCompatFragment implements ViewPager.
     }
 
 
+
     public void setOnHistoryUpdateListener(historyUpdateListener listener) {
         this.historyListener = listener;
     }
@@ -122,6 +129,7 @@ public class FragmentBookmark extends MvpAppCompatFragment implements ViewPager.
     public void setOnFavouriteUpdateListener(favouriteUpdateListener listener) {
         this.favouriteListener = listener;
     }
+
 
     public FragmentBookmark() {
         // Required empty public constructor
@@ -186,24 +194,28 @@ public class FragmentBookmark extends MvpAppCompatFragment implements ViewPager.
                 .show();
     }
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_UPDATE_BOOKMARKS:
+                    //TODO: Обработка подписки , Уведомляем остальных что списки истории и избранных изменены
                     if (historyListener != null && favouriteListener != null) {
                         historyListener.onUpdate();
                         favouriteListener.onUpdate();
                     }
                     break;
                 case REQUEST_UPDATE_HISTORY:
+                    //TODO: Обработка подписки , Уведомляем остальных что список истории изменен
                     if (historyListener != null && data != null) {
                         historyListener.onUpdate();
                         getTargetFragment().onActivityResult(REQUEST_UPDATE_BOOKMARKS, RESULT_OK, data);
 
                     }
                     break;
+                //TODO: Обработка подписки , Уведомляем остальных что список избранных изменен
                 case REQUEST_UPDATE_FAVOURITE:
                     if (favouriteListener != null && data != null) {
                         favouriteListener.onUpdate();

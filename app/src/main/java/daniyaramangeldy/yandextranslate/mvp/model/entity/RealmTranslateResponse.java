@@ -10,7 +10,7 @@ import io.realm.annotations.PrimaryKey;
 
 
 /**
- * Created by daniyaramangeldy on 21.04.17.
+ * Моделька для хранения Переводов в БД
  */
 
 public class RealmTranslateResponse extends RealmObject {

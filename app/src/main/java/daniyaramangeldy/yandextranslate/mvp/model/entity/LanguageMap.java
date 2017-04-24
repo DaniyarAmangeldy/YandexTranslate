@@ -3,7 +3,7 @@ package daniyaramangeldy.yandextranslate.mvp.model.entity;
 import android.support.v4.util.ArrayMap;
 
 /**
- * Created by daniyaramangeldy on 24.04.17.
+ * Внимание Костыль , Моделька по сути обычная map. Нужна для маппера, Когда получаем язык ¯\_(ツ)_/¯
  */
 
 public class LanguageMap {
