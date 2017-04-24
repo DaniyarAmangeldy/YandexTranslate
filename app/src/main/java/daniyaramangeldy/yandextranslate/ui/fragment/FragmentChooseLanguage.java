@@ -58,6 +58,8 @@ public class FragmentChooseLanguage extends MvpAppCompatFragment implements Choo
         return fragment;
     }
 
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +88,13 @@ public class FragmentChooseLanguage extends MvpAppCompatFragment implements Choo
         presenter.getLanguage();
     }
 
+
+    @OnClick(R.id.choose_language_back_button)
+    public void back(){
+        getActivity().onBackPressed();
+    }
+
+
     public void initRecyclerView(List<Language> languageList){
         ChooseLanguageAdapter adapter = new ChooseLanguageAdapter(languageList,current);
         DividerItemDecoration divider = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
@@ -108,4 +117,6 @@ public class FragmentChooseLanguage extends MvpAppCompatFragment implements Choo
         getActivity().setResult(Activity.RESULT_OK,result);
         getActivity().finish();
     }
+
+
 }

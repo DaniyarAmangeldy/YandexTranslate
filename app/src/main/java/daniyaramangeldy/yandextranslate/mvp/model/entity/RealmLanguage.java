@@ -11,6 +11,7 @@ import io.realm.RealmObject;
 public class RealmLanguage extends RealmObject {
     private String name;
     private String id_;
+    private String lang;
 
 
     public RealmLanguage() {
@@ -30,5 +31,13 @@ public class RealmLanguage extends RealmObject {
 
     public void setId_(String id_) {
         this.id_ = id_;
+    }
+
+    public String getLang() {
+        return lang;
+    }
+
+    public void setLang(String lang) {
+        this.lang = lang;
     }
 }

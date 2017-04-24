@@ -15,7 +15,7 @@ import io.reactivex.Observable;
 
 public interface LanguageRepository {
 
-    Observable<LanguageMap> loadLanguages();
+    Observable<LanguageMap> loadLanguages(String lang);
 
     TranslateResponse findTranslateInCache(String text, String lang);
 
@@ -38,6 +38,6 @@ public interface LanguageRepository {
     Favourite getFavourite(String text);
     TranslateResponse getHistory(String text);
 
-    List<Language> getLanguageList();
-    String getLangByKey(String key);
+    List<Language> getLanguageList(String lang);
+    String getLangByKey(String key,String lang);
 }

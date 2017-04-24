@@ -8,6 +8,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
@@ -32,13 +33,10 @@ import io.realm.RealmResults;
  */
 
 public class LanguageRepositoryImpl implements LanguageRepository {
-
-
-    private final String LANGUAGE_RUSSIAN = "ru";
-    private static final String TAG = "LanguageRepositoryImpl";
-
+    
     private YandexTranslateApi api;
     private String token;
+    private String lang;
 
     @Inject
     public LanguageRepositoryImpl(YandexTranslateApi api, String token) {
@@ -48,8 +46,16 @@ public class LanguageRepositoryImpl implements LanguageRepository {
 
 
     @Override
-    public Observable<LanguageMap> loadLanguages() {
-        return api.getLanguages(token, LANGUAGE_RUSSIAN)
+    public Observable<LanguageMap> loadLanguages(String lang) {
+        Realm realm = Realm.getDefaultInstance();
+        this.lang = lang;
+
+        if(realm.where(RealmLanguage.class).equalTo("lang",lang).findAll().size()!=0){
+            realm.close();
+            return Observable.just(new LanguageMap());
+        }
+
+        return api.getLanguages(token,lang)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(this::setLangsToCache);
@@ -58,12 +64,14 @@ public class LanguageRepositoryImpl implements LanguageRepository {
     private void setLangsToCache(LanguageMap languageMap) {
         Realm realm = Realm.getDefaultInstance();
         try {
-            if(realm.where(RealmLanguage.class).findAll().size()==0) {
+
+            if(realm.where(RealmLanguage.class).equalTo("lang",lang).findAll().size()==0) {
                 realm.executeTransaction(realm1 -> {
                     for (Map.Entry<String, String> entry : languageMap.getLangMap().entrySet()) {
                         RealmLanguage realmLanguage = realm1.createObject(RealmLanguage.class);
                         realmLanguage.setId_(entry.getKey());
                         realmLanguage.setName(entry.getValue());
+                        realmLanguage.setLang(lang);
                     }
                 });
 
@@ -242,10 +250,10 @@ public class LanguageRepositoryImpl implements LanguageRepository {
     }
 
     @Override
-    public List<Language> getLanguageList() {
+    public List<Language> getLanguageList(String lang) {
         Realm realm = Realm.getDefaultInstance();
         try {
-            RealmResults<RealmLanguage> realmLangList = realm.where(RealmLanguage.class).findAll();
+            RealmResults<RealmLanguage> realmLangList = realm.where(RealmLanguage.class).equalTo("lang",lang).findAll();
             List<Language> langList = new ArrayList<>();
             for (RealmLanguage realmLang : realmLangList) {
                 langList.add(parseLangFromRealm(realmLang));
@@ -261,11 +269,11 @@ public class LanguageRepositoryImpl implements LanguageRepository {
     }
 
     @Override
-    public String getLangByKey(String key) {
+    public String getLangByKey(String key,String lang) {
         String result = "";
         Realm realm = Realm.getDefaultInstance();
         try {
-            RealmLanguage realmLang = realm.where(RealmLanguage.class).equalTo("id_", key).findFirst();
+            RealmLanguage realmLang = realm.where(RealmLanguage.class).equalTo("id_", key).equalTo("lang",lang).findFirst();
             if (realmLang != null) {
                 result = realmLang.getName();
             }
@@ -389,22 +397,5 @@ public class LanguageRepositoryImpl implements LanguageRepository {
         realm.close();
     }
 
-//    private void addTranslate(RealmFavourite favourite,Realm realm){
-//        RealmTranslateResponse response = realm.where(RealmTranslateResponse.class)
-//                .equalTo("originalText",favourite.getOriginalText())
-//                .findFirst();
-//        if(response == null) {
-//            realm.executeTransaction(realm1 -> {
-//                RealmTranslateResponse newResponse = realm1.createObject(RealmTranslateResponse.class, UUID.randomUUID().toString());
-//                RealmList<RealmString> stringList = new RealmList<RealmString>();
-//                RealmString string = realm1.createObject(RealmString.class);
-//                string.setString(favourite.getText());
-//                stringList.add(string);
-//                newResponse.setFavourite(favourite.isFavourite());
-//                newResponse.setLang(favourite.getLang());
-//                newResponse.setOriginalText(favourite.getText());
-//                newResponse.setText(stringList);
-//            });
-//        }
-//    }
+
 }

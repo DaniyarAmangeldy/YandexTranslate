@@ -5,6 +5,7 @@ import android.content.res.Resources;
 
 
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -20,6 +21,8 @@ import io.reactivex.Observable;
 
 public class TranslateInteractorImpl implements TranslateInteractor {
     private final String KEY_LANG = "lang";
+    private final String KEY_SYSTEM_LANG = "systemLang";
+
     private LanguageRepository langRepository;
     private SharedPreferences sp;
     private Resources res;
@@ -54,7 +57,7 @@ public class TranslateInteractorImpl implements TranslateInteractor {
     }
 
     private String getLangByKey(String s) {
-        return langRepository.getLangByKey(s);
+        return langRepository.getLangByKey(s,getSystemLanguage());
     }
 
     private String getLanguageFromSharedPreferences() {
@@ -79,13 +82,24 @@ public class TranslateInteractorImpl implements TranslateInteractor {
 
     @Override
     public Observable<LanguageMap> loadLanguages() {
-        return langRepository.loadLanguages();
+        String language = Locale.getDefault().getLanguage();
+        if(!sp.getString(KEY_SYSTEM_LANG,"ru").equals(language));{
+            editSystemLanguage(language);
+            return langRepository.loadLanguages(language.substring(0,2).toLowerCase());
+        }
+    }
+
+    private void editSystemLanguage(String language) {
+        sp.edit().putString(KEY_SYSTEM_LANG,language).apply();
     }
 
     @Override
     public List<Language> getLanguageList() {
-        return langRepository.getLanguageList();
+        return langRepository.getLanguageList(getSystemLanguage());
     }
 
 
+    public String getSystemLanguage() {
+        return sp.getString(KEY_SYSTEM_LANG,"ru");
+    }
 }
